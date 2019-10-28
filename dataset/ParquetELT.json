@@ -1,0 +1,67 @@
+{
+	"name": "ParquetELT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "dbo.VuelosMeteoBackup.parquet",
+				"folderPath": "test",
+				"container": "laloblob"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "OriginAirportCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "Month",
+				"type": "INT32"
+			},
+			{
+				"name": "DayofMonth",
+				"type": "INT32"
+			},
+			{
+				"name": "CRSDepHour",
+				"type": "INT32"
+			},
+			{
+				"name": "DayOfWeek",
+				"type": "INT32"
+			},
+			{
+				"name": "Carrier",
+				"type": "UTF8"
+			},
+			{
+				"name": "DestAirportCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "DepDel15",
+				"type": "INT32"
+			},
+			{
+				"name": "WindSpeed",
+				"type": "INT32"
+			},
+			{
+				"name": "SeaLevelPressure",
+				"type": "INT32"
+			},
+			{
+				"name": "HourlyPrecip",
+				"type": "INT32"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

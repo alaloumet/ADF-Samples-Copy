@@ -1,0 +1,7 @@
+{
+	"name": "integrationRuntimeE0152",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "IR en el PC local "
+	}
+}

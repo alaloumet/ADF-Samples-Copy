@@ -1,0 +1,18 @@
+{
+	"name": "SqlServerOnPrem",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Conex. a SQL Server 2017 Enterprise en E0152",
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=E0152;initial catalog=LALUS",
+			"userName": "PHARUS\\alaloumet",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3YmIzNjg5Zi0zYjk5LTQyZjgtYjAwOC0wYmRkOTYyMjMyOWIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimeE0152",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

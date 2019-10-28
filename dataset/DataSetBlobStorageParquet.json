@@ -1,0 +1,38 @@
+{
+	"name": "DataSetBlobStorageParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "test",
+				"container": "laloblob"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "Column_1",
+				"type": "UTF8"
+			},
+			{
+				"name": "Column_2",
+				"type": "INT32"
+			},
+			{
+				"name": "Column_3",
+				"type": "UTF8"
+			},
+			{
+				"name": "Column_4",
+				"type": "INT32"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,70 @@
+{
+	"name": "DataSetSqlServerTablaVuelosMeteo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerOnPrem",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "OriginAirportCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DayofMonth",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CRSDepHour",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DayOfWeek",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Carrier",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DestAirportCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DepDel15",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WindSpeed",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SeaLevelPressure",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "HourlyPrecip",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "VuelosMeteo"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
