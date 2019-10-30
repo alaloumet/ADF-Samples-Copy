@@ -1,0 +1,189 @@
+{
+	"name": "PruebaOnPremParquet",
+	"properties": {
+		"description": "Extrae de SQL On Prem, Carga en Azire Blob Storage, Transforma y deja el Resultado en SQL Azure",
+		"activities": [
+			{
+				"name": "ExtraeSqlOnPrem",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "OriginAirportCode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OriginAirportCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Month",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "Month",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DayofMonth",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DayofMonth",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CRSDepHour",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CRSDepHour",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DayOfWeek",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DayOfWeek",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Carrier",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Carrier",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DestAirportCode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DestAirportCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DepDel15",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DepDel15",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "WindSpeed",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "WindSpeed",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SeaLevelPressure",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "SeaLevelPressure",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "HourlyPrecip",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "HourlyPrecip",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DataSetSqlServerTablaVuelosMeteo",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DataSetBlobStorageParquet",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "dataflowELT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ExtraeSqlOnPrem",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflowELT",
+						"type": "DataFlowReference"
+					}
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
