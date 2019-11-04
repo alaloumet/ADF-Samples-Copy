@@ -1,0 +1,35 @@
+{
+	"name": "pruebaWindow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ParquetELT",
+						"type": "DatasetReference"
+					},
+					"name": "sourceDataFlowELT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTablaVuelosMeteoOtra",
+						"type": "DatasetReference"
+					},
+					"name": "sinkELT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectELT"
+				},
+				{
+					"name": "SortELT"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tOriginAirportCode as string,\n\t\tMonth as integer,\n\t\tDayofMonth as integer,\n\t\tCRSDepHour as integer,\n\t\tDayOfWeek as integer,\n\t\tCarrier as string,\n\t\tDestAirportCode as string,\n\t\tDepDel15 as integer,\n\t\tWindSpeed as integer,\n\t\tSeaLevelPressure as integer,\n\t\tHourlyPrecip as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> sourceDataFlowELT\nsourceDataFlowELT select(mapColumn(\n\t\tOriginAirportCode,\n\t\tMonth,\n\t\tDayofMonth,\n\t\tCRSDepHour,\n\t\tDayOfWeek,\n\t\tCarrier,\n\t\tDestAirportCode,\n\t\tDepDel15\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectELT\nSelectELT sort(asc(OriginAirportCode, true),\n\tasc(Month, true),\n\tasc(DayofMonth, true)) ~> SortELT\nSortELT sink(input(\n\t\tOriginAirportCode as string,\n\t\tMonth as integer,\n\t\tDayofMonth as integer,\n\t\tCRSDepHour as integer,\n\t\tDayOfWeek as integer,\n\t\tCarrier as string,\n\t\tDestAirportCode as string,\n\t\tDepDel15 as integer,\n\t\tWindSpeed as integer,\n\t\tSeaLevelPressure as integer,\n\t\tHourlyPrecip as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table') ~> sinkELT"
+		}
+	}
+}
