@@ -1,0 +1,33 @@
+{
+	"name": "EjemploParaWindow",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "serie.csv",
+				"folderPath": "test",
+				"container": "laloblob"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "NUMSERIE",
+				"type": "String"
+			},
+			{
+				"name": "HORA",
+				"type": "String"
+			}
+		]
+	}
+}
