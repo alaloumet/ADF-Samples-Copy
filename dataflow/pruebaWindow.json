@@ -12,14 +12,22 @@
 					"name": "sourceDataFlowELT"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SalidaPruebaWindows",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "NumFila",
 					"description": "Agrega datos de aeropuertos de origen ordenados por mes/día y crea una columna con un identificador de fila basado en ese criterio"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tOriginAirportCode as string,\n\t\tMonth as integer,\n\t\tDayofMonth as integer,\n\t\tCRSDepHour as integer,\n\t\tDayOfWeek as integer,\n\t\tCarrier as string,\n\t\tDestAirportCode as string,\n\t\tDepDel15 as integer,\n\t\tWindSpeed as integer,\n\t\tSeaLevelPressure as integer,\n\t\tHourlyPrecip as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> sourceDataFlowELT\nsourceDataFlowELT window(over(Carrier),\n\tasc(Month, true),\n\tasc(DayofMonth, true),\n\tNumFila = rowNumber()) ~> NumFila"
+			"script": "\n\nsource(output(\n\t\tOriginAirportCode as string,\n\t\tMonth as integer,\n\t\tDayofMonth as integer,\n\t\tCRSDepHour as integer,\n\t\tDayOfWeek as integer,\n\t\tCarrier as string,\n\t\tDestAirportCode as string,\n\t\tDepDel15 as integer,\n\t\tWindSpeed as integer,\n\t\tSeaLevelPressure as integer,\n\t\tHourlyPrecip as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> sourceDataFlowELT\nsourceDataFlowELT window(over(Carrier),\n\tasc(Month, true),\n\tasc(DayofMonth, true),\n\tNumFila = rowNumber()) ~> NumFila\nNumFila sink(input(\n\t\t{1} as string,\n\t\t{2019-01-01} as string,\n\t\t{texteo de prueba} as string,\n\t\t{9.99} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tfilePattern:'SalidaPruebaWindow_1,csv') ~> sink1"
 		}
 	}
 }
