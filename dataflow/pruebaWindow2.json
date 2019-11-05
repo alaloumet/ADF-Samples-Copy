@@ -12,13 +12,21 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SalidaPruebaWindows",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "Window1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tNUMSERIE as integer '000',\n\t\tHORA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 window(asc(NUMSERIE, true),\n\tHORAS_ANTERIORES = lag(HORA)) ~> Window1"
+			"script": "\n\nsource(output(\n\t\tNUMSERIE as integer '000',\n\t\tHORA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 window(asc(NUMSERIE, true),\n\tHORAS_ANTERIORES = lag(HORA)) ~> Window1\nWindow1 sink(input(\n\t\t{1} as string,\n\t\t{2019-01-01} as string,\n\t\t{texteo de prueba} as string,\n\t\t{9.99} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tfilePattern:'SalidaPruebaWindow_2.csv') ~> sink1"
 		}
 	}
 }
