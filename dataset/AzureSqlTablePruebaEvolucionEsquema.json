@@ -20,6 +20,11 @@
 			{
 				"name": "c",
 				"type": "nvarchar"
+			},
+			{
+				"name": "D",
+				"type": "float",
+				"precision": 15
 			}
 		],
 		"typeProperties": {
