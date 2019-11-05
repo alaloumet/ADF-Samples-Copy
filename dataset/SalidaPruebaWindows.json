@@ -1,0 +1,40 @@
+{
+	"name": "SalidaPruebaWindows",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "test",
+				"container": "laloblob"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "1",
+				"type": "String"
+			},
+			{
+				"name": "2019-01-01",
+				"type": "String"
+			},
+			{
+				"name": "texteo de prueba",
+				"type": "String"
+			},
+			{
+				"name": "9.99",
+				"type": "String"
+			}
+		]
+	}
+}
