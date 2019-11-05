@@ -1,0 +1,30 @@
+{
+	"name": "AzureSqlTablePruebaEvolucionEsquema",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseTest",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "a",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "b",
+				"type": "date"
+			},
+			{
+				"name": "c",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "evolucion_esquema"
+		}
+	}
+}
