@@ -85,7 +85,7 @@
 							"typeProperties": {
 								"variableName": "a",
 								"value": {
-									"value": "B",
+									"value": "'B'",
 									"type": "Expression"
 								}
 							}
