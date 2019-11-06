@@ -82,7 +82,7 @@
 		"variables": {
 			"a": {
 				"type": "String",
-				"defaultValue": "zz"
+				"defaultValue": "1"
 			}
 		},
 		"annotations": []
