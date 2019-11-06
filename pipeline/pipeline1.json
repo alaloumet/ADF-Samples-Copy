@@ -58,9 +58,24 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@variables('a').value == 1",
+						"value": "@variables('a').value == 'A'",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Set variable3",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "a",
+								"value": {
+									"value": "X",
+									"type": "Expression"
+								}
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Set variable2",
@@ -70,7 +85,7 @@
 							"typeProperties": {
 								"variableName": "a",
 								"value": {
-									"value": "2",
+									"value": "B",
 									"type": "Expression"
 								}
 							}
@@ -82,7 +97,7 @@
 		"variables": {
 			"a": {
 				"type": "String",
-				"defaultValue": "1"
+				"defaultValue": "Z"
 			}
 		},
 		"annotations": []
