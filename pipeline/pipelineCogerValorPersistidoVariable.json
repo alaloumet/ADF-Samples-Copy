@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"variableName": "a",
 					"value": {
-						"value": "'@activity('Lookup1').output'",
+						"value": "@activity('CogemosValorPersistido').output.firstRow.vari",
 						"type": "Expression"
 					}
 				}
@@ -117,7 +117,7 @@
 								"sink": {
 									"type": "SqlServerSink",
 									"preCopyScript": {
-										"value": "update dbo.persistVar set vari = @{variables('a').value}",
+										"value": "update dbo.persistVar set vari = @{variables('a')}",
 										"type": "Expression"
 									}
 								},
