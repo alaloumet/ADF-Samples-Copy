@@ -2036,112 +2036,12 @@
 											"mappings": [
 												{
 													"source": {
-														"name": "OriginAirportCode",
+														"name": "vari",
 														"type": "String"
 													},
 													"sink": {
-														"name": "OriginAirportCode",
-														"type": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "Month",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "Month",
-														"type": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "DayofMonth",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "DayofMonth",
-														"type": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "CRSDepHour",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "CRSDepHour",
-														"type": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "DayOfWeek",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "DayOfWeek",
-														"type": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "Carrier",
+														"name": "vari",
 														"type": "String"
-													},
-													"sink": {
-														"name": "Carrier",
-														"type": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "DestAirportCode",
-														"type": "String"
-													},
-													"sink": {
-														"name": "DestAirportCode",
-														"type": "nvarchar"
-													}
-												},
-												{
-													"source": {
-														"name": "DepDel15",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "DepDel15",
-														"type": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "WindSpeed",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "WindSpeed",
-														"type": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "SeaLevelPressure",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "SeaLevelPressure",
-														"type": "int"
-													}
-												},
-												{
-													"source": {
-														"name": "HourlyPrecip",
-														"type": "Int32"
-													},
-													"sink": {
-														"name": "HourlyPrecip",
-														"type": "int"
 													}
 												}
 											]
