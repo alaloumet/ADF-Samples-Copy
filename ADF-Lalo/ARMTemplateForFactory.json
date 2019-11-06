@@ -1364,60 +1364,7 @@
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "OriginAirportCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Month",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DayofMonth",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "CRSDepHour",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DayOfWeek",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Carrier",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DestAirportCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DepDel15",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "WindSpeed",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SeaLevelPressure",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "HourlyPrecip",
-						"type": "int",
-						"precision": 10
-					}
-				],
+				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "VuelosMeteo"
@@ -2048,6 +1995,168 @@
 											"type": "Expression"
 										}
 									}
+								},
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "CambiamosValorX",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource"
+										},
+										"sink": {
+											"type": "SqlServerSink",
+											"preCopyScript": {
+												"value": "update dbo.persistVar set vari = @{variables('a').value}",
+												"type": "Expression"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"mappings": [
+												{
+													"source": {
+														"name": "OriginAirportCode",
+														"type": "String"
+													},
+													"sink": {
+														"name": "OriginAirportCode",
+														"type": "nvarchar"
+													}
+												},
+												{
+													"source": {
+														"name": "Month",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "Month",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "DayofMonth",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "DayofMonth",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "CRSDepHour",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "CRSDepHour",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "DayOfWeek",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "DayOfWeek",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "Carrier",
+														"type": "String"
+													},
+													"sink": {
+														"name": "Carrier",
+														"type": "nvarchar"
+													}
+												},
+												{
+													"source": {
+														"name": "DestAirportCode",
+														"type": "String"
+													},
+													"sink": {
+														"name": "DestAirportCode",
+														"type": "nvarchar"
+													}
+												},
+												{
+													"source": {
+														"name": "DepDel15",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "DepDel15",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "WindSpeed",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "WindSpeed",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "SeaLevelPressure",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "SeaLevelPressure",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "HourlyPrecip",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "HourlyPrecip",
+														"type": "int"
+													}
+												}
+											]
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "SqlServerTablePersistVar",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SqlServerTablePersistVar",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
 								}
 							]
 						}
