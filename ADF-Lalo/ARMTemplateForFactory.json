@@ -894,11 +894,9 @@
 							"body": {
 								"DataFactoryName": "@{pipeline().DataFactory}",
 								"PipelineName": "@{pipeline().Pipeline}",
-								"ErrorMessage": "  -- ERROR codificando usuarios --  ",
+								"ErrorMessage": "  -- @{activity('CopiaDesdePostgres_a_CSV').Error.ErrorCode} ",
 								"EmailTo": "@pipeline().parameters.EmailTo"
-							},
-							"linkedServices": [],
-							"datasets": []
+							}
 						}
 					},
 					{
@@ -931,9 +929,7 @@
 								"PipelineName": "@{pipeline().Pipeline}",
 								"ErrorMessage": "  -- Copia OK--  ",
 								"EmailTo": "@pipeline().parameters.EmailTo"
-							},
-							"linkedServices": [],
-							"datasets": []
+							}
 						}
 					}
 				],
@@ -1968,7 +1964,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"expression": {
-								"value": "@equals(variables('a'),'B')",
+								"value": "@equals(variables('a'),'A')",
 								"type": "Expression"
 							},
 							"ifFalseActivities": [
@@ -2102,6 +2098,123 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPrem')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineException')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Una pipeline básica con movimiento de datos y control de errores",
+				"activities": [
+					{
+						"name": "CopiaDesdePostgres_a_CSV",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "PostgreSqlSource"
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings",
+									"quoteAllText": true
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "col1",
+											"type": "Int32"
+										},
+										"sink": {
+											"path": "$['col1']"
+										}
+									},
+									{
+										"source": {
+											"name": "col2",
+											"type": "String"
+										},
+										"sink": {
+											"path": "$['col2']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DataSetPostgreSqlTablaPruebaADF",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DataSetJsonEjemplo",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "If Condition1",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "CopiaDesdePostgres_a_CSV",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(activity('CopiaDesdePostgres_a_CSV').Error.ErrorCode, '2200')",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Wait1",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 10
+									}
+								}
+							]
+						}
+					}
+				],
+				"parameters": {
+					"EmailTo": {
+						"type": "string",
+						"defaultValue": "alaloumet@encamina.com"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DataSetPostgreSqlTablaPruebaADF')]",
+				"[concat(variables('factoryId'), '/datasets/DataSetJsonEjemplo')]"
 			]
 		}
 	]
