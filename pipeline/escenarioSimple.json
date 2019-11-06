@@ -95,7 +95,7 @@
 					"body": {
 						"DataFactoryName": "@{pipeline().DataFactory}",
 						"PipelineName": "@{pipeline().Pipeline}",
-						"ErrorMessage": "  -- ERROR codificando usuarios --  ",
+						"ErrorMessage": "  -- @{activity('CopiaDesdePostgres_a_CSV').ExceptionMessage} ",
 						"EmailTo": "@pipeline().parameters.EmailTo"
 					}
 				}
