@@ -58,7 +58,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@variables('a').value == 'A'",
+						"value": "@equals(variables('a'),'A')",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
