@@ -1,0 +1,285 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ADF-Lalo"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineCogerValorPersistidoVariable')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "AsiganamosValorPersistidoEnVariable",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "CogemosValorPersistido",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "a",
+							"value": {
+								"value": "@activity('CogemosValorPersistido').output.firstRow.vari",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "CogemosValorPersistido",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource"
+							},
+							"dataset": {
+								"referenceName": "SqlServerTablePersistVar",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "EvaluamosValorVariable",
+						"description": "Si el Valor de la variable es 'A' , la cambiamos a 'X'",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "AsiganamosValorPersistidoEnVariable",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(variables('a'),'B')",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set variable3",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "a",
+										"value": {
+											"value": "X",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "CambiamosValorX",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "a",
+										"value": {
+											"value": "'B'",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "CambiamosValorX",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource"
+										},
+										"sink": {
+											"type": "SqlServerSink",
+											"preCopyScript": {
+												"value": "update dbo.persistVar set vari = @{variables('a')}",
+												"type": "Expression"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"mappings": [
+												{
+													"source": {
+														"name": "OriginAirportCode",
+														"type": "String"
+													},
+													"sink": {
+														"name": "OriginAirportCode",
+														"type": "nvarchar"
+													}
+												},
+												{
+													"source": {
+														"name": "Month",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "Month",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "DayofMonth",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "DayofMonth",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "CRSDepHour",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "CRSDepHour",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "DayOfWeek",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "DayOfWeek",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "Carrier",
+														"type": "String"
+													},
+													"sink": {
+														"name": "Carrier",
+														"type": "nvarchar"
+													}
+												},
+												{
+													"source": {
+														"name": "DestAirportCode",
+														"type": "String"
+													},
+													"sink": {
+														"name": "DestAirportCode",
+														"type": "nvarchar"
+													}
+												},
+												{
+													"source": {
+														"name": "DepDel15",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "DepDel15",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "WindSpeed",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "WindSpeed",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "SeaLevelPressure",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "SeaLevelPressure",
+														"type": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "HourlyPrecip",
+														"type": "Int32"
+													},
+													"sink": {
+														"name": "HourlyPrecip",
+														"type": "int"
+													}
+												}
+											]
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "SqlServerTablePersistVar",
+											"type": "DatasetReference"
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SqlServerTablePersistVar",
+											"type": "DatasetReference"
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"variables": {
+					"a": {
+						"type": "String",
+						"defaultValue": "Z"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
