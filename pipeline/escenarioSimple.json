@@ -95,7 +95,7 @@
 					"body": {
 						"DataFactoryName": "@{pipeline().DataFactory}",
 						"PipelineName": "@{pipeline().Pipeline}",
-						"ErrorMessage": "  -- @{activity('CopiaDesdePostgres_a_CSV').Error} ",
+						"ErrorMessage": "  -- @{activity('CopiaDesdePostgres_a_CSV').Error.ErrorCode} ",
 						"EmailTo": "@pipeline().parameters.EmailTo"
 					}
 				}
