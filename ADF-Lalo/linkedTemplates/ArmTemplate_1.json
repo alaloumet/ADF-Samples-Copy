@@ -1128,11 +1128,11 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Set variable1",
+						"name": "AsiganamosValorPersistidoEnVariable",
 						"type": "SetVariable",
 						"dependsOn": [
 							{
-								"activity": "Lookup1",
+								"activity": "CogemosValorPersistido",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1148,7 +1148,7 @@
 						}
 					},
 					{
-						"name": "Lookup1",
+						"name": "CogemosValorPersistido",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -1171,11 +1171,12 @@
 						}
 					},
 					{
-						"name": "If Condition1",
+						"name": "EvaluamosValorVariable",
+						"description": "Si el Valor de la variable es 'A' , la cambiamos a 'X'",
 						"type": "IfCondition",
 						"dependsOn": [
 							{
-								"activity": "Set variable1",
+								"activity": "AsiganamosValorPersistidoEnVariable",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1204,7 +1205,7 @@
 							],
 							"ifTrueActivities": [
 								{
-									"name": "Set variable2",
+									"name": "CambiamosValorX",
 									"type": "SetVariable",
 									"dependsOn": [],
 									"userProperties": [],
