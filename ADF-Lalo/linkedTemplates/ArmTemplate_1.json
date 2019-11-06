@@ -905,7 +905,9 @@
 								"PipelineName": "@{pipeline().Pipeline}",
 								"ErrorMessage": "  -- ERROR codificando usuarios --  ",
 								"EmailTo": "@pipeline().parameters.EmailTo"
-							}
+							},
+							"linkedServices": [],
+							"datasets": []
 						}
 					},
 					{
@@ -938,7 +940,9 @@
 								"PipelineName": "@{pipeline().Pipeline}",
 								"ErrorMessage": "  -- Copia OK--  ",
 								"EmailTo": "@pipeline().parameters.EmailTo"
-							}
+							},
+							"linkedServices": [],
+							"datasets": []
 						}
 					}
 				],
@@ -1089,7 +1093,7 @@
 						"typeProperties": {
 							"variableName": "a",
 							"value": {
-								"value": "'@activity('Lookup1').output'",
+								"value": "@activity('CogemosValorPersistido').output.firstRow.vari",
 								"type": "Expression"
 							}
 						}
@@ -1190,7 +1194,7 @@
 										"sink": {
 											"type": "SqlServerSink",
 											"preCopyScript": {
-												"value": "update dbo.persistVar set vari = @{variables('a').value}",
+												"value": "update dbo.persistVar set vari = @{variables('a')}",
 												"type": "Expression"
 											}
 										},
