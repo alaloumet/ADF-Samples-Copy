@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"variableName": "a",
 					"value": {
-						"value": "@activity('CogemosValorPersistido').output.firstRow.vari",
+						"value": "@activity('CogemosValorPersistido').output.firstRow.valor",
 						"type": "Expression"
 					}
 				}
@@ -36,7 +36,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource"
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "select valor from dbo.persistVar2 where dominio = 'ejemplo'"
 					},
 					"dataset": {
 						"referenceName": "SqlServerTablePersistVar",
