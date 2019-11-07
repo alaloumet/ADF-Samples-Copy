@@ -36,8 +36,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "select valor from dbo.persistVar2 where dominio = 'ejemplo'"
+						"type": "SqlServerSource"
 					},
 					"dataset": {
 						"referenceName": "SqlServerTablePersistVar",
