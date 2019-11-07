@@ -11,11 +11,19 @@
 			{
 				"name": "vari",
 				"type": "nvarchar"
+			},
+			{
+				"name": "valor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "dominio",
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "persistVar"
+			"table": "persistVar2"
 		}
 	}
 }
