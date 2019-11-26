@@ -927,7 +927,7 @@
 							"body": {
 								"DataFactoryName": "@{pipeline().DataFactory}",
 								"PipelineName": "@{pipeline().Pipeline}",
-								"ErrorMessage": "  -- Copia OK--  ",
+								"ErrorMessage": "  -- Copia OK--",
 								"EmailTo": "@pipeline().parameters.EmailTo"
 							}
 						}
