@@ -19,7 +19,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT ORIGINNAME\nFROM dbo.DATAORIGINS\nWHERE ORIGINID = @{pipeline().parameters.origen}"
+						"sqlReaderQuery": "SELECT ORIGINNAME\nFROM dbo.DATAORIGINS\nWHERE ORIGINID BETWEEN @{pipeline().parameters.origen1}\nAND\n@{pipeline().parameters.origen2}"
 					},
 					"dataset": {
 						"referenceName": "AzureSqlTestGen",
@@ -43,7 +43,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('LookupEnSQLAzure').output.value",
+						"value": "@activity('LookupOrigins').output.value",
 						"type": "Expression"
 					},
 					"activities": [
@@ -68,7 +68,8 @@
 								"sink": {
 									"type": "DelimitedTextSink",
 									"storeSettings": {
-										"type": "AzureBlobStorageWriteSettings"
+										"type": "AzureBlobStorageWriteSettings",
+										"maxConcurrentConnections": 2
 									},
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
@@ -96,9 +97,13 @@
 			}
 		],
 		"parameters": {
-			"origen": {
+			"origen1": {
 				"type": "int",
 				"defaultValue": 1
+			},
+			"origen2": {
+				"type": "int",
+				"defaultValue": 2
 			}
 		},
 		"annotations": []

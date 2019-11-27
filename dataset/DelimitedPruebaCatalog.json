@@ -1,0 +1,24 @@
+{
+	"name": "DelimitedPruebaCatalog",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "testOutput",
+				"container": "laloblob"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": ""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
