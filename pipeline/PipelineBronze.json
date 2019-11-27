@@ -87,7 +87,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "FicherosTablasSQLAzure",
+									"referenceName": "DelimitedPruebaCatalog",
 									"type": "DatasetReference"
 								}
 							]
