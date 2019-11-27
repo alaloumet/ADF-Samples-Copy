@@ -1,0 +1,107 @@
+{
+	"name": "PipelineBronze",
+	"properties": {
+		"description": "Está pensado para procesar los diferentes elementos de un mismo origen; por ejemplo, de una misma bdd SQL Server",
+		"activities": [
+			{
+				"name": "LookupOrigins",
+				"description": "Selecciona de la tabla de orígenes el elemento  que se va a procesar en función del valor del parámetro origen",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT ORIGINNAME\nFROM dbo.DATAORIGINS\nWHERE ORIGINID = @{pipeline().parameters.origen}"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTestGen",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachOrigin",
+				"description": "Procesa los movimientos de datos del elemento origen o de los elementos origen si hay que procesar más de uno en el mismo pipeline",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LookupOrigins",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LookupEnSQLAzure').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "CopyOriginToBronze",
+							"description": "Copia el elemento de origen dado a la zona Bronze (raw data)",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": "SELECT TOP (1000) * FROM @{item().ORIGINNAME}"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".taka"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "AzureSqlTestGen",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "FicherosTablasSQLAzure",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"origen": {
+				"type": "int",
+				"defaultValue": 1
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
