@@ -21,7 +21,9 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"tableOption": "autoCreate"
+						"preCopyScript": "truncate table @{variables('tabla_prueba')}",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false
 				},
@@ -39,6 +41,12 @@
 				]
 			}
 		],
+		"variables": {
+			"tabla_prueba": {
+				"type": "String",
+				"defaultValue": "dbo.lalus"
+			}
+		},
 		"annotations": []
 	}
 }
