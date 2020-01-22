@@ -1,0 +1,13 @@
+{
+	"name": "AzureSqlGen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabasetest2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
