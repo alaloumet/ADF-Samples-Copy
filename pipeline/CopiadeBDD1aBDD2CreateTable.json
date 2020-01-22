@@ -1,9 +1,11 @@
 {
-	"name": "pipeline1",
+	"name": "CopiadeBDD1aBDD2CreateTable",
 	"properties": {
+		"description": "Prueba de copiar tabla entre 2 bbdd del mismo servicio pero sin que exista la tabla destino la primera vez",
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyDBDD1aBDD2ConCreate",
+				"description": "Copia los datos de una tabla de una bdd en una tbala de otra bdd del mismo servidor pero creándola primero.\nBorramos primero la tabla en la segunda bdd para forzar que no exista la tabla y verificar que funciona pero no es necesario porque solo crea la tabla si no existe",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -21,7 +23,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "truncate table @{variables('tabla_prueba')}",
+						"preCopyScript": "-- borramos porsi: ver descrip de la actividad\ndrop table if exists  @{variables('tabla_prueba')}",
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
@@ -35,7 +37,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlGen2",
+						"referenceName": "AzureSqTablaNoCreadaAntes",
 						"type": "DatasetReference"
 					}
 				]
