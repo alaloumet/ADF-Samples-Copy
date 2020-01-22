@@ -1,0 +1,69 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabasetest2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OriginAirportCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DayofMonth",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CRSDepHour",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DayOfWeek",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Carrier",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DestAirportCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DepDel15",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WindSpeed",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SeaLevelPressure",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "HourlyPrecip",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "VuelosMeteoAzure"
+		}
+	}
+}

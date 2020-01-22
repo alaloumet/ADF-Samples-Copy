@@ -1,0 +1,129 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyDeBDD1ABDD2",
+				"description": "copia de una bdd a otra dentro del mismos servidor de SQL Azure",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "OriginAirportCode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OriginAirportCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Month",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "Month",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DayofMonth",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DayofMonth",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CRSDepHour",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CRSDepHour",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DayOfWeek",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DayOfWeek",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Carrier",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Carrier",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DestAirportCode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DestAirportCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DepDel15",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DepDel15",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlTablaVuelosMeteoOtra",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
