@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseTest'"
 		},
+		"AzureSqlDatabasetest2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabasetest2'"
+		},
 		"PostgreSqlOnPrem_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'PostgreSqlOnPrem'"
@@ -71,17 +75,11 @@
 					"AzureSqlDatabaseTest_connectionString": {
 						"value": "[parameters('AzureSqlDatabaseTest_connectionString')]"
 					},
+					"AzureSqlDatabasetest2_connectionString": {
+						"value": "[parameters('AzureSqlDatabasetest2_connectionString')]"
+					},
 					"PostgreSqlOnPrem_connectionString": {
 						"value": "[parameters('PostgreSqlOnPrem_connectionString')]"
-					},
-					"SqlServerOnPrem_connectionString": {
-						"value": "[parameters('SqlServerOnPrem_connectionString')]"
-					},
-					"SqlServerOnPrem_password": {
-						"value": "[parameters('SqlServerOnPrem_password')]"
-					},
-					"SqlServerOnPrem_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServerOnPrem_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -100,11 +98,40 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"SqlServerOnPrem_connectionString": {
+						"value": "[parameters('SqlServerOnPrem_connectionString')]"
+					},
+					"SqlServerOnPrem_password": {
+						"value": "[parameters('SqlServerOnPrem_password')]"
+					},
+					"SqlServerOnPrem_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServerOnPrem_properties_typeProperties_userName')]"
 					}
 				}
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_1')]"
 			]
 		}
 	]

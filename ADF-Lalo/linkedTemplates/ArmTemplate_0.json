@@ -19,21 +19,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseTest'"
 		},
+		"AzureSqlDatabasetest2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabasetest2'"
+		},
 		"PostgreSqlOnPrem_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'PostgreSqlOnPrem'"
-		},
-		"SqlServerOnPrem_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServerOnPrem'"
-		},
-		"SqlServerOnPrem_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServerOnPrem'"
-		},
-		"SqlServerOnPrem_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "PHARUS\\alaloumet"
 		}
 	},
 	"variables": {
@@ -80,6 +72,20 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureSqlDatabaseTest_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabasetest2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Para las pruebas de integrar datos de 2 BBDD de un mismo servicio de Azure SQL",
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabasetest2_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -669,31 +675,6 @@
 				"type": "PostgreSql",
 				"typeProperties": {
 					"connectionString": "[parameters('PostgreSqlOnPrem_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeE0152",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeE0152')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerOnPrem')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Conex. a SQL Server 2017 Enterprise en E0152",
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServerOnPrem_connectionString')]",
-					"userName": "[parameters('SqlServerOnPrem_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServerOnPrem_password')]"
-					}
 				},
 				"connectVia": {
 					"referenceName": "integrationRuntimeE0152",
