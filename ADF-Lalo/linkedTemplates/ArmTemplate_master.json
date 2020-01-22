@@ -77,9 +77,6 @@
 					},
 					"AzureSqlDatabasetest2_connectionString": {
 						"value": "[parameters('AzureSqlDatabasetest2_connectionString')]"
-					},
-					"PostgreSqlOnPrem_connectionString": {
-						"value": "[parameters('PostgreSqlOnPrem_connectionString')]"
 					}
 				}
 			},
@@ -98,6 +95,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"PostgreSqlOnPrem_connectionString": {
+						"value": "[parameters('PostgreSqlOnPrem_connectionString')]"
 					},
 					"SqlServerOnPrem_connectionString": {
 						"value": "[parameters('SqlServerOnPrem_connectionString')]"

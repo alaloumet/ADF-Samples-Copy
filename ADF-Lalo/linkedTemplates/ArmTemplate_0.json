@@ -22,10 +22,6 @@
 		"AzureSqlDatabasetest2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabasetest2'"
-		},
-		"PostgreSqlOnPrem_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'PostgreSqlOnPrem'"
 		}
 	},
 	"variables": {
@@ -160,6 +156,27 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqTablaNoCreadaAntes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabasetest2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "lalus"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTablaVuelosMeteoOtra')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -231,6 +248,80 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTableCopiaBDD1aBDD2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabasetest2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "OriginAirportCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Month",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DayofMonth",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CRSDepHour",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DayOfWeek",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Carrier",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DestAirportCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DepDel15",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WindSpeed",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SeaLevelPressure",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "HourlyPrecip",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "VuelosMeteoAzure"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
 			]
 		},
 		{
@@ -619,70 +710,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SalidaPruebaWindows')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "test",
-						"container": "laloblob"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "1",
-						"type": "String"
-					},
-					{
-						"name": "2019-01-01",
-						"type": "String"
-					},
-					{
-						"name": "texteo de prueba",
-						"type": "String"
-					},
-					{
-						"name": "9.99",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PostgreSqlOnPrem')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "PostgreSql",
-				"typeProperties": {
-					"connectionString": "[parameters('PostgreSqlOnPrem_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeE0152",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeE0152')]"
 			]
 		}
 	]

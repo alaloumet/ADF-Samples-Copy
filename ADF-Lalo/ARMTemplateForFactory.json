@@ -1288,6 +1288,144 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipelineDeBDD1aBDD2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copia una tabla entre dos bases de datos del mismo servicio de Azure SQL",
+				"activities": [
+					{
+						"name": "CopyDeBDD1ABDD2",
+						"description": "copia de una bdd a otra dentro del mismos servidor de SQL Azure",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "OriginAirportCode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "OriginAirportCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Month",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "Month",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "DayofMonth",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DayofMonth",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "CRSDepHour",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "CRSDepHour",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "DayOfWeek",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DayOfWeek",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Carrier",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Carrier",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DestAirportCode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DestAirportCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DepDel15",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DepDel15",
+											"type": "Int32"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTablaVuelosMeteoOtra",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTableCopiaBDD1aBDD2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTablaVuelosMeteoOtra')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTableCopiaBDD1aBDD2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pipelineException')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1531,6 +1669,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqTablaNoCreadaAntes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabasetest2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "lalus"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTablaVuelosMeteoOtra')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1602,6 +1761,80 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTableCopiaBDD1aBDD2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabasetest2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "OriginAirportCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Month",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DayofMonth",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CRSDepHour",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DayOfWeek",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Carrier",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DestAirportCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DepDel15",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WindSpeed",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SeaLevelPressure",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "HourlyPrecip",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "VuelosMeteoAzure"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
 			]
 		},
 		{
@@ -2487,15 +2720,15 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipelineDeBDD1aBDD2')]",
+			"name": "[concat(parameters('factoryName'), '/CopiadeBDD1aBDD2CreateTable')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Copia una tabla entre dos bases de datos del mismo servicio de Azure SQL",
+				"description": "Prueba de copiar tabla entre 2 bbdd del mismo servicio pero sin que exista la tabla destino la primera vez",
 				"activities": [
 					{
-						"name": "CopyDeBDD1ABDD2",
-						"description": "copia de una bdd a otra dentro del mismos servidor de SQL Azure",
+						"name": "CopyDBDD1aBDD2ConCreate",
+						"description": "Copia los datos de una tabla de una bdd en una tbala de otra bdd del mismo servidor pero creándola primero.\nBorramos primero la tabla en la segunda bdd para forzar que no exista la tabla y verificar que funciona pero no es necesario porque solo crea la tabla si no existe",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -2512,94 +2745,12 @@
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"preCopyScript": "-- borramos porsi: ver descrip de la actividad\ndrop table if exists  @{variables('tabla_prueba')}",
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "OriginAirportCode",
-											"type": "String"
-										},
-										"sink": {
-											"name": "OriginAirportCode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Month",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "Month",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "DayofMonth",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "DayofMonth",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "CRSDepHour",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "CRSDepHour",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "DayOfWeek",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "DayOfWeek",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Carrier",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Carrier",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DestAirportCode",
-											"type": "String"
-										},
-										"sink": {
-											"name": "DestAirportCode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DepDel15",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "DepDel15",
-											"type": "Int32"
-										}
-									}
-								]
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
@@ -2610,110 +2761,24 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "AzureSqlTableCopiaBDD1aBDD2",
+								"referenceName": "AzureSqTablaNoCreadaAntes",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
 					}
 				],
+				"variables": {
+					"tabla_prueba": {
+						"type": "String",
+						"defaultValue": "dbo.lalus"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTablaVuelosMeteoOtra')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTableCopiaBDD1aBDD2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTableCopiaBDD1aBDD2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabasetest2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "OriginAirportCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Month",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DayofMonth",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "CRSDepHour",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DayOfWeek",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Carrier",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DestAirportCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DepDel15",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "WindSpeed",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SeaLevelPressure",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "HourlyPrecip",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "VuelosMeteoAzure"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlGen2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabasetest2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
+				"[concat(variables('factoryId'), '/datasets/AzureSqTablaNoCreadaAntes')]"
 			]
 		}
 	]
