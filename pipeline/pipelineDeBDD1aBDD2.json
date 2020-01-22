@@ -1,6 +1,7 @@
 {
-	"name": "pipeline1",
+	"name": "pipelineDeBDD1aBDD2",
 	"properties": {
+		"description": "Copia una tabla entre dos bases de datos del mismo servicio de Azure SQL",
 		"activities": [
 			{
 				"name": "CopyDeBDD1ABDD2",
@@ -118,7 +119,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "AzureSqlTableCopiaBDD1aBDD2",
 						"type": "DatasetReference"
 					}
 				]
