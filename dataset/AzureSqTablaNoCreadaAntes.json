@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlGen2",
+	"name": "AzureSqTablaNoCreadaAntes",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabasetest2",
