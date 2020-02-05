@@ -20,9 +20,14 @@
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
-						"type": "ParquetSink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
 							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
 						}
 					},
 					"enableStaging": false
@@ -35,7 +40,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DataSetBlobStorageParquet",
+						"referenceName": "DelimitedText1Gen",
 						"type": "DatasetReference"
 					}
 				]
