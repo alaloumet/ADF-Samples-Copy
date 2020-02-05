@@ -9,7 +9,7 @@
 		"type": "OdbcTable",
 		"schema": [],
 		"typeProperties": {
-			"tableName": "kk"
+			"tableName": "Job Families"
 		}
 	}
 }
