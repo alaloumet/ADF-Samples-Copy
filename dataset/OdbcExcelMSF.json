@@ -1,0 +1,12 @@
+{
+	"name": "OdbcExcelMSF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OdbcExcelMSF",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OdbcTable",
+		"schema": []
+	}
+}
