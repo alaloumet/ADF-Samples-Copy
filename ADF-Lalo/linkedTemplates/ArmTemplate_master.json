@@ -23,6 +23,26 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabasetest2'"
 		},
+		"Odbc1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Odbc1'"
+		},
+		"Odbc1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Odbc1'"
+		},
+		"Odbc1_credential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'credential' of 'Odbc1'"
+		},
+		"OdbcExcelMSF_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'OdbcExcelMSF'"
+		},
+		"OdbcExcelMSF_credential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'credential' of 'OdbcExcelMSF'"
+		},
 		"PostgreSqlOnPrem_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'PostgreSqlOnPrem'"
@@ -34,6 +54,10 @@
 		"SqlServerOnPrem_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServerOnPrem'"
+		},
+		"Odbc1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "lalo"
 		},
 		"SqlServerOnPrem_properties_typeProperties_userName": {
 			"type": "string",
@@ -96,6 +120,21 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"Odbc1_connectionString": {
+						"value": "[parameters('Odbc1_connectionString')]"
+					},
+					"Odbc1_password": {
+						"value": "[parameters('Odbc1_password')]"
+					},
+					"Odbc1_credential": {
+						"value": "[parameters('Odbc1_credential')]"
+					},
+					"OdbcExcelMSF_connectionString": {
+						"value": "[parameters('OdbcExcelMSF_connectionString')]"
+					},
+					"OdbcExcelMSF_credential": {
+						"value": "[parameters('OdbcExcelMSF_credential')]"
+					},
 					"PostgreSqlOnPrem_connectionString": {
 						"value": "[parameters('PostgreSqlOnPrem_connectionString')]"
 					},
@@ -104,6 +143,9 @@
 					},
 					"SqlServerOnPrem_password": {
 						"value": "[parameters('SqlServerOnPrem_password')]"
+					},
+					"Odbc1_properties_typeProperties_userName": {
+						"value": "[parameters('Odbc1_properties_typeProperties_userName')]"
 					},
 					"SqlServerOnPrem_properties_typeProperties_userName": {
 						"value": "[parameters('SqlServerOnPrem_properties_typeProperties_userName')]"

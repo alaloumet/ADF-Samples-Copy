@@ -17,6 +17,21 @@
 		"AzureSqlDatabasetest2_connectionString": {
 			"value": ""
 		},
+		"Odbc1_connectionString": {
+			"value": ""
+		},
+		"Odbc1_password": {
+			"value": ""
+		},
+		"Odbc1_credential": {
+			"value": ""
+		},
+		"OdbcExcelMSF_connectionString": {
+			"value": ""
+		},
+		"OdbcExcelMSF_credential": {
+			"value": ""
+		},
 		"PostgreSqlOnPrem_connectionString": {
 			"value": ""
 		},
@@ -25,6 +40,9 @@
 		},
 		"SqlServerOnPrem_password": {
 			"value": ""
+		},
+		"Odbc1_properties_typeProperties_userName": {
+			"value": "lalo"
 		},
 		"SqlServerOnPrem_properties_typeProperties_userName": {
 			"value": "PHARUS\\alaloumet"
