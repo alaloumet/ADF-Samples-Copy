@@ -1,0 +1,41 @@
+{
+	"name": "pruStoredProc",
+	"properties": {
+		"description": "inserta el valor de un parámetro en una tabla de SQL a través de un sp",
+		"activities": [
+			{
+				"name": "Stored Procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[milog]",
+					"storedProcedureParameters": {
+						"message": {
+							"value": "@pipeline().parameters.mensa",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTest",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"mensa": {
+				"type": "string",
+				"defaultValue": "nasti"
+			}
+		},
+		"annotations": []
+	}
+}
