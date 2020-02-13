@@ -18,6 +18,10 @@
 				"typeProperties": {
 					"storedProcedureName": "[dbo].[milog]",
 					"storedProcedureParameters": {
+						"event_timestamp": {
+							"value": "utcNow('YYYY-mm-DD hh:mm:ss')",
+							"type": "String"
+						},
 						"message": {
 							"value": "@pipeline().parameters.mensa",
 							"type": "String"
