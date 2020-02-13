@@ -3020,7 +3020,14 @@
 					{
 						"name": "Stored Procedure1",
 						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -3032,6 +3039,10 @@
 						"typeProperties": {
 							"storedProcedureName": "[[dbo].[milog]",
 							"storedProcedureParameters": {
+								"event_timestamp": {
+									"value": "@variables('fecha')",
+									"type": "String"
+								},
 								"message": {
 									"value": "@pipeline().parameters.mensa",
 									"type": "String"
@@ -3042,12 +3053,27 @@
 							"referenceName": "AzureSqlDatabaseTest",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "fecha",
+							"value": "@utcNow('yyyy-MM-dd HH:mm:ss')"
+						}
 					}
 				],
 				"parameters": {
 					"mensa": {
 						"type": "string",
 						"defaultValue": "nasti"
+					}
+				},
+				"variables": {
+					"fecha": {
+						"type": "String"
 					}
 				},
 				"annotations": []
