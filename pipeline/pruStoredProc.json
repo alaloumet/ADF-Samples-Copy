@@ -47,7 +47,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "fecha",
-					"value": "@utcNow('yyyy-MM-dd HH:mm:ss.ssss')"
+					"value": "@utcNow('yyyy-MM-dd HH:mm:ss')"
 				}
 			}
 		],
