@@ -19,7 +19,7 @@
 					"storedProcedureName": "[dbo].[milog]",
 					"storedProcedureParameters": {
 						"event_timestamp": {
-							"value": "utcNow('YYYY-mm-DD hh:mm:ss')",
+							"value": "utcNow()",
 							"type": "String"
 						},
 						"message": {
