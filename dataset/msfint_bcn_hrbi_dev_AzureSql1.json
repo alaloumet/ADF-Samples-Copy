@@ -1,0 +1,16 @@
+{
+	"name": "msfint_bcn_hrbi_dev_AzureSql1",
+	"properties": {
+		"description": "General connection. Table name must be specified during execution",
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseTest",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Common"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

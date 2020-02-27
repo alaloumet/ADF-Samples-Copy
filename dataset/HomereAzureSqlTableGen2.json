@@ -1,0 +1,22 @@
+{
+	"name": "HomereAzureSqlTableGen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseTest",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Homere"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "homere",
+			"table": {
+				"value": "@pipeline().parameters.table",
+				"type": "Expression"
+			}
+		}
+	}
+}

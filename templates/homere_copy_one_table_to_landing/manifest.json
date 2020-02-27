@@ -27,5 +27,8 @@
 	"author": "Antonio.Laloumet@barcelona.msf.org",
 	"annotations": [],
 	"services": [],
+	"folder": {
+		"name": "Templates MSF"
+	},
 	"categories": []
 }

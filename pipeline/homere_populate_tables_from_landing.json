@@ -1,0 +1,432 @@
+{
+	"name": "homere_populate_tables_from_landing",
+	"properties": {
+		"activities": [
+			{
+				"name": "Homere_Lookup_Tables",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT [table_name] FROM [msfcatalog].[adf_batch_tables] WHERE [domain] = '@{variables('domain')}' AND [active] = 1",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "msfint_bcn_hrbi_dev_AzureSql2",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Homere_ForEach_Table",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Homere_Lookup_Tables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Homere_Lookup_Tables').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "Homere_Execute_Pipeline_Populate_Table_DW",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "homere_Populate_Table_DW",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"table": {
+										"value": "@item().table_name",
+										"type": "Expression"
+									},
+									"fs": "landing",
+									"domain": "homere"
+								}
+							}
+						},
+						{
+							"name": "Homere_Add_Event_Failure_Execute_Pipeline",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Homere_Execute_Pipeline_Populate_Table_DW",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[msflogs].[add_adf_event]",
+								"storedProcedureParameters": {
+									"event_activity": {
+										"value": "Homere_Execute_Pipeline_populate_tables_from_landing",
+										"type": "String"
+									},
+									"event_dataflow": {
+										"value": "NA",
+										"type": "String"
+									},
+									"event_details": {
+										"value": "NA",
+										"type": "String"
+									},
+									"event_domain": {
+										"value": {
+											"value": "@variables('domain')",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"event_errorcode": {
+										"value": {
+											"value": "@activity('Homere_Execute_Pipeline_Populate_Table_DW').Error.ErrorCode",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"event_iserror": {
+										"value": "True",
+										"type": "Boolean"
+									},
+									"event_message": {
+										"value": {
+											"value": "@activity('Homere_Execute_Pipeline_Populate_Table_DW').Error.Message",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"event_object": {
+										"value": {
+											"value": "@item().table_name",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"event_pipeline": {
+										"value": {
+											"value": "@pipeline().Pipeline",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"event_timestamp": {
+										"value": {
+											"value": "@utcNow('yyyy-MM-dd HH:mm:ss')",
+											"type": "Expression"
+										},
+										"type": "DateTime"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "AzureSqlDatabaseTest",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Homere_Add_Event_OK",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Homere_ForEach_Table",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[msflogs].[add_adf_event]",
+					"storedProcedureParameters": {
+						"event_activity": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_dataflow": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_details": {
+							"value": {
+								"value": "NA",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_domain": {
+							"value": {
+								"value": "@variables('domain')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_errorcode": {
+							"value": "0",
+							"type": "String"
+						},
+						"event_iserror": {
+							"value": "False",
+							"type": "Boolean"
+						},
+						"event_message": {
+							"value": {
+								"value": "@concat('Pipeline ', pipeline().Pipeline, ' execution finished')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_object": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_pipeline": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_timestamp": {
+							"value": {
+								"value": "@utcNow('yyyy-MM-dd HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTest",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Homere_Add_Event_Failure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Homere_Lookup_Tables",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[msflogs].[add_adf_event]",
+					"storedProcedureParameters": {
+						"event_activity": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_dataflow": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_details": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_domain": {
+							"value": {
+								"value": "@variables('domain')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_errorcode": {
+							"value": {
+								"value": "@activity('Homere_Lookup_Tables').Error.ErrorCode",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_iserror": {
+							"value": "True",
+							"type": "Boolean"
+						},
+						"event_message": {
+							"value": "prueba de mensaje de error",
+							"type": "String"
+						},
+						"event_object": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_pipeline": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_timestamp": {
+							"value": {
+								"value": "@utcNow('yyyy-MM-dd HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTest",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Homere_Add_Event_Failure_ForEach",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Homere_ForEach_Table",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[msflogs].[add_adf_event]",
+					"storedProcedureParameters": {
+						"event_activity": {
+							"value": "Homere_ForEach_Table",
+							"type": "String"
+						},
+						"event_dataflow": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_details": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_domain": {
+							"value": {
+								"value": "@variables('domain')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_errorcode": {
+							"value": {
+								"value": "@activity('Homere_ForEach_Table').Error.ErrorCode",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_iserror": {
+							"value": "True",
+							"type": "Boolean"
+						},
+						"event_message": {
+							"value": {
+								"value": "@activity('Homere_ForEach_Table').Error.Message",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_object": {
+							"value": "NA",
+							"type": "String"
+						},
+						"event_pipeline": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"event_timestamp": {
+							"value": {
+								"value": "@utcNow('yyyy-MM-dd HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTest",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"variables": {
+			"fs": {
+				"type": "String",
+				"defaultValue": "landing"
+			},
+			"domain": {
+				"type": "String",
+				"defaultValue": "homere"
+			},
+			"result": {
+				"type": "String",
+				"defaultValue": "NA"
+			}
+		},
+		"folder": {
+			"name": "LoDeMSF"
+		},
+		"annotations": []
+	}
+}
