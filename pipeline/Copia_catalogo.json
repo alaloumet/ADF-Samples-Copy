@@ -33,8 +33,11 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqTablaNoCreadaAntes",
-						"type": "DatasetReference"
+						"referenceName": "MSF_Batch_Tables_Dest",
+						"type": "DatasetReference",
+						"parameters": {
+							"table": "adf_batch_tables"
+						}
 					}
 				]
 			}
