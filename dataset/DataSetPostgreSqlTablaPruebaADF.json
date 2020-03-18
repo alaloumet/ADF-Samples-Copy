@@ -6,6 +6,9 @@
 			"referenceName": "PostgreSqlOnPrem",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": [],
 		"type": "PostgreSqlTable",
 		"schema": [],

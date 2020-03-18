@@ -5,6 +5,9 @@
 			"referenceName": "AzureSqlDatabaseTest",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": []

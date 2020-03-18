@@ -140,6 +140,9 @@
 				"defaultValue": "alaloumet@encamina.com"
 			}
 		},
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": []
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"

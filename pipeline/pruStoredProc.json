@@ -26,11 +26,17 @@
 					"storedProcedureName": "[dbo].[milog]",
 					"storedProcedureParameters": {
 						"event_timestamp": {
-							"value": "@variables('fecha')",
+							"value": {
+								"value": "@variables('fecha')",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"message": {
-							"value": "@pipeline().parameters.mensa",
+							"value": {
+								"value": "@pipeline().parameters.mensa",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -47,7 +53,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "fecha",
-					"value": "@utcNow('yyyy-MM-dd HH:mm:ss')"
+					"value": {
+						"value": "@utcNow('yyyy-MM-dd HH:mm:ss')",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -61,6 +70,9 @@
 			"fecha": {
 				"type": "String"
 			}
+		},
+		"folder": {
+			"name": "Ejemplos"
 		},
 		"annotations": []
 	}

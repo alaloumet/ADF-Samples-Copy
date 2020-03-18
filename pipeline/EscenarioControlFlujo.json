@@ -150,6 +150,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": []
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"

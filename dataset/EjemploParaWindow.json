@@ -5,6 +5,9 @@
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
