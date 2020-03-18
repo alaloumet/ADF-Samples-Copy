@@ -33,7 +33,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "MSF_Batch_Tables_Dest",
+						"referenceName": "AzureSqlTestGen",
 						"type": "DatasetReference"
 					}
 				]
