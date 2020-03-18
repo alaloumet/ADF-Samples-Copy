@@ -36,12 +36,18 @@
 						"referenceName": "MSF_Batch_Tables_Dest",
 						"type": "DatasetReference",
 						"parameters": {
-							"table": "adf_batch_tables"
+							"table": "@pipeline().parameters.table"
 						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"table": {
+				"type": "string",
+				"defaultValue": "adf_batch_tables"
+			}
+		},
 		"annotations": []
 	}
 }
