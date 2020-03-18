@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "Copia_catalogo",
 	"properties": {
 		"activities": [
 			{
@@ -33,7 +33,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTestGen",
+						"referenceName": "AzureSqTablaNoCreadaAntes",
 						"type": "DatasetReference"
 					}
 				]
