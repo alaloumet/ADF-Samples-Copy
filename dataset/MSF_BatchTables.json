@@ -1,0 +1,49 @@
+{
+	"name": "MSF_BatchTables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "msfint_bcn_hrbi_dev",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "table_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "domain",
+				"type": "nvarchar"
+			},
+			{
+				"name": "active",
+				"type": "bit"
+			},
+			{
+				"name": "refresh_mode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "refresh_frecuency",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "comments",
+				"type": "nvarchar"
+			},
+			{
+				"name": "last_refresh",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "msfcatalog",
+			"table": "adf_batch_tables"
+		}
+	}
+}
