@@ -50,6 +50,9 @@
 				"defaultValue": "adf_batch_tables"
 			}
 		},
+		"folder": {
+			"name": "MSF"
+		},
 		"annotations": []
 	}
 }

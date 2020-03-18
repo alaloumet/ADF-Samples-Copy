@@ -5,6 +5,9 @@
 			"referenceName": "msfint_bcn_hrbi_dev",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "MSF"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
