@@ -21,7 +21,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "truncate table @{pipeline().parameters.table}",
+						"preCopyScript": "truncate table lalo.@{pipeline().parameters.table}",
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
