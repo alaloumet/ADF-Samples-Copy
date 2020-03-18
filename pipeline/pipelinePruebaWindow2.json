@@ -18,10 +18,17 @@
 					"dataflow": {
 						"referenceName": "pruebaWindow2",
 						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
 					}
 				}
 			}
 		],
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": []
 	}
 }

@@ -179,10 +179,17 @@
 					"dataflow": {
 						"referenceName": "dataflowELT",
 						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
 					}
 				}
 			}
 		],
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": []
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"

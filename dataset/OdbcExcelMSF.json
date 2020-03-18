@@ -5,6 +5,9 @@
 			"referenceName": "OdbcExcelMSF",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": [],
 		"type": "OdbcTable",
 		"schema": [],

@@ -161,6 +161,9 @@
 				"defaultValue": "Z"
 			}
 		},
+		"folder": {
+			"name": "Ejemplos"
+		},
 		"annotations": []
 	}
 }

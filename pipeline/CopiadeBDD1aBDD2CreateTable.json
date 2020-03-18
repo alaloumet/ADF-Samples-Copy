@@ -23,7 +23,10 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "-- borramos porsi: ver descrip de la actividad\ndrop table if exists  @{variables('tabla_prueba')}",
+						"preCopyScript": {
+							"value": "-- borramos porsi: ver descrip de la actividad\ndrop table if exists  @{variables('tabla_prueba')}",
+							"type": "Expression"
+						},
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
@@ -48,6 +51,9 @@
 				"type": "String",
 				"defaultValue": "dbo.lalus"
 			}
+		},
+		"folder": {
+			"name": "Ejemplos"
 		},
 		"annotations": []
 	}
