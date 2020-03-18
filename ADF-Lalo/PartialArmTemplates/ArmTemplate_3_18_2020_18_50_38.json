@@ -6,74 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "ADF-Lalo"
-		},
-		"AzureBlobStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
-		},
-		"AzureDataLakeStorage1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
-		},
-		"AzureDatabricks1_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
-		},
-		"AzureSqlDatabaseTest_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseTest'"
-		},
-		"AzureSqlDatabasetest2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabasetest2'"
-		},
-		"Odbc1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Odbc1'"
-		},
-		"Odbc1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Odbc1'"
-		},
-		"Odbc1_credential": {
-			"type": "secureString",
-			"metadata": "Secure string for 'credential' of 'Odbc1'"
-		},
-		"OdbcExcelMSF_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'OdbcExcelMSF'"
-		},
-		"OdbcExcelMSF_credential": {
-			"type": "secureString",
-			"metadata": "Secure string for 'credential' of 'OdbcExcelMSF'"
-		},
-		"PostgreSqlOnPrem_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'PostgreSqlOnPrem'"
-		},
-		"SqlServerOnPrem_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServerOnPrem'"
-		},
-		"SqlServerOnPrem_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServerOnPrem'"
-		},
-		"msfint_bcn_hrbi_dev_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'msfint_bcn_hrbi_dev'"
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://alaloumetstorage.dfs.core.windows.net"
-		},
-		"Odbc1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "lalo"
-		},
-		"SqlServerOnPrem_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "PHARUS\\alaloumet"
 		}
 	},
 	"variables": {
@@ -119,15 +51,13 @@
 						"inputs": [
 							{
 								"referenceName": "AzureSqlTablaVuelosMeteoOtra",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "AzureSqTablaNoCreadaAntes",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -172,8 +102,7 @@
 							},
 							"dataset": {
 								"referenceName": "AzureSqlTestGen",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -221,8 +150,7 @@
 										},
 										"dataset": {
 											"referenceName": "AzureSqlTestGen",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									}
 								},
@@ -263,15 +191,13 @@
 									"inputs": [
 										{
 											"referenceName": "AzureSqlTestGen",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									],
 									"outputs": [
 										{
 											"referenceName": "FicherosTablasSQLAzure",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									]
 								}
@@ -460,15 +386,13 @@
 						"inputs": [
 							{
 								"referenceName": "DataSetAzureSqlTablaVuelosMeteoBackup",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DataSetBlobStorageParquet",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -494,14 +418,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "dataflowELT",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourceDataFlowELT": {},
-									"sinkELT": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -547,8 +465,7 @@
 							},
 							"dataset": {
 								"referenceName": "AzureSqlTestGen",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -617,15 +534,13 @@
 									"inputs": [
 										{
 											"referenceName": "AzureSqlTestGen",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									],
 									"outputs": [
 										{
 											"referenceName": "DelimitedPruebaCatalog",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									]
 								},
@@ -822,15 +737,13 @@
 						"inputs": [
 							{
 								"referenceName": "DataSetSqlServerTablaVuelosMeteo",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DataSetBlobStorageParquet",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -856,14 +769,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "dataflowELT",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourceDataFlowELT": {},
-									"sinkELT": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -940,15 +847,13 @@
 						"inputs": [
 							{
 								"referenceName": "DataSetPostgreSqlTablaPruebaADF",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DataSetJsonEjemplo",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1122,15 +1027,13 @@
 						"inputs": [
 							{
 								"referenceName": "DataSetPostgreSqlTablaPruebaADF",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DataSetJsonEjemplo",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1267,15 +1170,13 @@
 						"inputs": [
 							{
 								"referenceName": "homere_landing_csv_Read",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "HomereAzureSqlTableGen2",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -1357,15 +1258,13 @@
 						"inputs": [
 							{
 								"referenceName": "homere_landing_csv_Read1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "HomereAzureSqlTableGen3",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -1434,15 +1333,13 @@
 						"inputs": [
 							{
 								"referenceName": "HomereOdbcGen",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "homere_landing_csv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1552,8 +1449,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HomereOdbcGen')]",
-				"[concat(variables('factoryId'), '/datasets/homere_landing_csv')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
+				"[concat(variables('factoryId'), '/datasets/homere_landing_csv')]"
 			]
 		},
 		{
@@ -1596,15 +1492,13 @@
 						"inputs": [
 							{
 								"referenceName": "HomereOdbcGen2",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "homere_landing_csv1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1714,8 +1608,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HomereOdbcGen2')]",
-				"[concat(variables('factoryId'), '/datasets/homere_landing_csv1')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
+				"[concat(variables('factoryId'), '/datasets/homere_landing_csv1')]"
 			]
 		},
 		{
@@ -1754,15 +1647,13 @@
 						"inputs": [
 							{
 								"referenceName": "HomereOdbcGen1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "HomereAzureSqlTableGen",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1872,8 +1763,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HomereOdbcGen1')]",
-				"[concat(variables('factoryId'), '/datasets/HomereAzureSqlTableGen')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
+				"[concat(variables('factoryId'), '/datasets/HomereAzureSqlTableGen')]"
 			]
 		},
 		{
@@ -1912,15 +1802,13 @@
 						"inputs": [
 							{
 								"referenceName": "HomereOdbcGen3",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "HomereAzureSqlTableGen1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2030,8 +1918,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HomereOdbcGen3')]",
-				"[concat(variables('factoryId'), '/datasets/HomereAzureSqlTableGen1')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
+				"[concat(variables('factoryId'), '/datasets/HomereAzureSqlTableGen1')]"
 			]
 		},
 		{
@@ -2063,8 +1950,7 @@
 							},
 							"dataset": {
 								"referenceName": "msfint_bcn_hrbi_dev_AzureSql",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -2470,7 +2356,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/msfint_bcn_hrbi_dev_AzureSql')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]",
 				"[concat(variables('factoryId'), '/pipelines/homere_copy_one_table_to_landing1')]"
 			]
 		},
@@ -2503,8 +2388,7 @@
 							},
 							"dataset": {
 								"referenceName": "msfint_bcn_hrbi_dev_AzureSql1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -2910,7 +2794,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/msfint_bcn_hrbi_dev_AzureSql1')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]",
 				"[concat(variables('factoryId'), '/pipelines/homere_copy_one_table_to_landing_SQL1')]"
 			]
 		},
@@ -2943,8 +2826,7 @@
 							},
 							"dataset": {
 								"referenceName": "msfint_bcn_hrbi_dev_AzureSql2",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": false
 						}
@@ -3350,7 +3232,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/msfint_bcn_hrbi_dev_AzureSql2')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]",
 				"[concat(variables('factoryId'), '/pipelines/homere_Populate_Table_DW')]"
 			]
 		},
@@ -3398,8 +3279,7 @@
 							},
 							"dataset": {
 								"referenceName": "SqlServerTablePersistVar",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						}
 					},
@@ -3500,15 +3380,13 @@
 									"inputs": [
 										{
 											"referenceName": "SqlServerTablePersistVar",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									],
 									"outputs": [
 										{
 											"referenceName": "SqlServerTablePersistVar",
-											"type": "DatasetReference",
-											"parameters": {}
+											"type": "DatasetReference"
 										}
 									]
 								}
@@ -3646,15 +3524,13 @@
 						"inputs": [
 							{
 								"referenceName": "AzureSqlTablaVuelosMeteoOtra",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "AzureSqlTableCopiaBDD1aBDD2",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -3705,15 +3581,13 @@
 						"inputs": [
 							{
 								"referenceName": "OdbcExcelMSF",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DelimitedText1Gen",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -3786,15 +3660,13 @@
 						"inputs": [
 							{
 								"referenceName": "DataSetPostgreSqlTablaPruebaADF",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DataSetJsonEjemplo",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3863,14 +3735,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "pruebaWindow",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourceDataFlowELT": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -3905,14 +3771,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "pruebaWindow2",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -3947,14 +3807,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "pruebaEvolucionEsquema",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -4045,9 +3899,7 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqTablaNoCreadaAntes')]",
@@ -4066,9 +3918,7 @@
 					"table": "lalus"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTablaVuelosMeteoOtra')]",
@@ -4140,9 +3990,7 @@
 					"table": "VuelosMeteOtra"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTableCopiaBDD1aBDD2')]",
@@ -4214,9 +4062,7 @@
 					"table": "VuelosMeteoAzure"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTablePruebaEvolucionEsquema')]",
@@ -4249,9 +4095,7 @@
 					"table": "evolucion_esquema"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTestGen')]",
@@ -4264,12 +4108,9 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
+				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataSetAzureSqlTablaVuelosMeteoBackup')]",
@@ -4341,9 +4182,7 @@
 					"table": "VuelosMeteoBackup"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataSetBlobStorageParquet')]",
@@ -4383,9 +4222,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataSetJsonEjemplo')]",
@@ -4403,12 +4240,9 @@
 						"type": "AzureBlobStorageLocation",
 						"container": "sparkcontainer"
 					}
-				},
-				"schema": {}
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataSetPostgreSqlTablaPruebaADF')]",
@@ -4428,9 +4262,7 @@
 					"table": "PruebaADF"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/PostgreSqlOnPrem')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataSetSqlServerTablaVuelosMeteo')]",
@@ -4502,9 +4334,7 @@
 					"table": "VuelosMeteo"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPrem')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedPruebaCatalog')]",
@@ -4530,9 +4360,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText1Gen')]",
@@ -4594,9 +4422,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/EjemploParaWindow')]",
@@ -4632,9 +4458,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/FicherosTablasSQLAzure')]",
@@ -4660,9 +4484,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen')]",
@@ -4687,9 +4509,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabasetest2')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen1')]",
@@ -4714,9 +4534,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen2')]",
@@ -4741,9 +4559,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen3')]",
@@ -4768,9 +4584,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen')]",
@@ -4794,9 +4608,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Odbc1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen1')]",
@@ -4820,9 +4632,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Odbc1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen2')]",
@@ -4846,9 +4656,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Odbc1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen3')]",
@@ -4872,9 +4680,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Odbc1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/OdbcExcelMSF')]",
@@ -4892,9 +4698,7 @@
 					"tableName": "Job Families"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/OdbcExcelMSF')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ParquetELT')]",
@@ -4963,9 +4767,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PruebaEvolucionEsquema')]",
@@ -4994,9 +4796,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SalidaPruebaWindows')]",
@@ -5039,9 +4839,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerTablePersistVar')]",
@@ -5065,9 +4863,7 @@
 					"table": "persistVar"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerOnPrem')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/homere_landing_csv')]",
@@ -5248,12 +5044,9 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
+				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/msfint_bcn_hrbi_dev_AzureSql1')]",
@@ -5270,12 +5063,9 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
+				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/msfint_bcn_hrbi_dev_AzureSql2')]",
@@ -5292,23 +5082,7 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
-				}
+				"schema": []
 			},
 			"dependsOn": []
 		},
@@ -5320,10 +5094,10 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"url": "https://alaloumetstorage.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+						"value": "**********"
 					}
 				}
 			},
@@ -5340,142 +5114,12 @@
 					"domain": "https://westeurope.azuredatabricks.net",
 					"accessToken": {
 						"type": "SecureString",
-						"value": "[parameters('AzureDatabricks1_accessToken')]"
+						"value": "**********"
 					},
 					"existingClusterId": "1003-135241-lump864"
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseTest')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabaseTest_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabasetest2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Para las pruebas de integrar datos de 2 BBDD de un mismo servicio de Azure SQL",
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabasetest2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Odbc1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Odbc",
-				"typeProperties": {
-					"connectionString": {
-						"type": "SecureString",
-						"value": "[parameters('Odbc1_connectionString')]"
-					},
-					"authenticationType": "Basic",
-					"userName": "[parameters('Odbc1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('Odbc1_password')]"
-					},
-					"credential": {
-						"type": "SecureString",
-						"value": "[parameters('Odbc1_credential')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeE0152",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeE0152')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OdbcExcelMSF')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Odbc",
-				"typeProperties": {
-					"connectionString": {
-						"type": "SecureString",
-						"value": "[parameters('OdbcExcelMSF_connectionString')]"
-					},
-					"authenticationType": "Anonymous",
-					"credential": {
-						"type": "SecureString",
-						"value": "[parameters('OdbcExcelMSF_credential')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeE0152",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeE0152')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PostgreSqlOnPrem')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "PostgreSql",
-				"typeProperties": {
-					"connectionString": "[parameters('PostgreSqlOnPrem_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeE0152",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeE0152')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerOnPrem')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Conex. a SQL Server 2017 Enterprise en E0152",
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServerOnPrem_connectionString')]",
-					"userName": "[parameters('SqlServerOnPrem_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServerOnPrem_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeE0152",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeE0152')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Trigger_hk1')]",
@@ -5532,17 +5176,6 @@
 						}
 					}
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntimeE0152')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"description": "IR en el PC local ",
-				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -5699,19 +5332,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/msfint_bcn_hrbi_dev')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('msfint_bcn_hrbi_dev_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Copia_catalogo')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -5743,8 +5363,7 @@
 						"inputs": [
 							{
 								"referenceName": "MSF_BatchTables",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
@@ -5815,9 +5434,7 @@
 					"table": "adf_batch_tables"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/msfint_bcn_hrbi_dev')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/MSF_Batch_Tables_Dest')]",
@@ -5845,9 +5462,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseTest')]"
-			]
+			"dependsOn": []
 		}
 	]
 }

@@ -13,395 +13,95 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/PruebaOnPremParquet')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/MSF_BatchTables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Extrae de SQL On Prem, Carga en Azire Blob Storage, Transforma y deja el Resultado en SQL Azure",
-				"activities": [
+				"linkedServiceName": {
+					"referenceName": "msfint_bcn_hrbi_dev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
 					{
-						"name": "ExtraeSqlOnPrem",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource"
-							},
-							"sink": {
-								"type": "ParquetSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "PreserveHierarchy"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "OriginAirportCode",
-											"type": "String"
-										},
-										"sink": {
-											"name": "OriginAirportCode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Month",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "Month",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "DayofMonth",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "DayofMonth",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "CRSDepHour",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "CRSDepHour",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "DayOfWeek",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "DayOfWeek",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Carrier",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Carrier",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DestAirportCode",
-											"type": "String"
-										},
-										"sink": {
-											"name": "DestAirportCode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DepDel15",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "DepDel15",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "WindSpeed",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "WindSpeed",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SeaLevelPressure",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "SeaLevelPressure",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "HourlyPrecip",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "HourlyPrecip",
-											"type": "Int32"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DataSetSqlServerTablaVuelosMeteo",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DataSetBlobStorageParquet",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "table_name",
+						"type": "nvarchar"
 					},
 					{
-						"name": "dataflowELT",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "ExtraeSqlOnPrem",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflowELT",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourceDataFlowELT": {},
-									"sinkELT": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
+						"name": "domain",
+						"type": "nvarchar"
+					},
+					{
+						"name": "active",
+						"type": "bit"
+					},
+					{
+						"name": "refresh_mode",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "refresh_frecuency",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "comments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "last_refresh",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
-				"annotations": []
+				"typeProperties": {
+					"schema": "msfcatalog",
+					"table": "adf_batch_tables"
+				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/escenarioDatabricks')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/MSF_Batch_Tables_Dest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Una pipeline básica con movimiento de datos y control de errores",
-				"activities": [
-					{
-						"name": "CopiaDesdePostgres_a_CSV",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "PostgreSqlSource"
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings",
-									"quoteAllText": true
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "col1",
-											"type": "Int32"
-										},
-										"sink": {
-											"path": "$['col1']"
-										}
-									},
-									{
-										"source": {
-											"name": "col2",
-											"type": "String"
-										},
-										"sink": {
-											"path": "$['col2']"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DataSetPostgreSqlTablaPruebaADF",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DataSetJsonEjemplo",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "EnviaErrorCod",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "CopiaDesdePostgres_a_CSV",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-121.westeurope.logic.azure.com:443/workflows/8b7aa1d884194896b1b6d528ee00bfc0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=u6FkvnKklvyXHTEbodKeBGDOue2m8CCcCpPguo-Nkro",
-							"method": "POST",
-							"headers": {
-								"Content-Type": "application/json"
-							},
-							"body": {
-								"DataFactoryName": "@{pipeline().DataFactory}",
-								"PipelineName": "@{pipeline().Pipeline}",
-								"ErrorMessage": "  -- ERROR codificando usuarios --  ",
-								"EmailTo": "@pipeline().parameters.EmailTo"
-							}
-						}
-					},
-					{
-						"name": "EnviaCodCopy",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "CopiaDesdePostgres_a_CSV",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-121.westeurope.logic.azure.com:443/workflows/8b7aa1d884194896b1b6d528ee00bfc0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=u6FkvnKklvyXHTEbodKeBGDOue2m8CCcCpPguo-Nkro",
-							"method": "POST",
-							"headers": {
-								"Content-Type": "application/json"
-							},
-							"body": {
-								"DataFactoryName": "@{pipeline().DataFactory}",
-								"PipelineName": "@{pipeline().Pipeline}",
-								"ErrorMessage": "  -- Copia OK--  ",
-								"EmailTo": "@pipeline().parameters.EmailTo"
-							}
-						}
-					},
-					{
-						"name": "NotebookPruebaDatabricks",
-						"description": "Quita una columna al fichero de entrada y lo graba como una tabla",
-						"type": "DatabricksNotebook",
-						"dependsOn": [
-							{
-								"activity": "EnviaCodCopy",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebookPath": "/Users/alaloumet@encamina.com/pruebas"
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureDatabricks1",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTest",
+					"type": "LinkedServiceReference"
+				},
 				"parameters": {
-					"EmailTo": {
+					"table": {
 						"type": "string",
-						"defaultValue": "alaloumet@encamina.com"
+						"defaultValue": "adf_batch_tables"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "lalo",
+					"table": {
+						"value": "@dataset().table",
+						"type": "Expression"
+					}
+				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/escenarioSimple')]",
+			"name": "[concat(parameters('factoryName'), '/CopiadeBDD1aBDD2CreateTable')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Una pipeline básica con movimiento de datos y control de errores",
+				"description": "Prueba de copiar tabla entre 2 bbdd del mismo servicio pero sin que exista la tabla destino la primera vez",
 				"activities": [
 					{
-						"name": "CopiaDesdePostgres_a_CSV",
+						"name": "CopyDBDD1aBDD2ConCreate",
+						"description": "Copia los datos de una tabla de una bdd en una tbala de otra bdd del mismo servidor pero creándola primero.\nBorramos primero la tabla en la segunda bdd para forzar que no exista la tabla y verificar que funciona pero no es necesario porque solo crea la tabla si no existe",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -414,219 +114,56 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "PostgreSqlSource"
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings",
-									"quoteAllText": true
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "col1",
-											"type": "Int32"
-										},
-										"sink": {
-											"path": "$['col1']"
-										}
-									},
-									{
-										"source": {
-											"name": "col2",
-											"type": "String"
-										},
-										"sink": {
-											"path": "$['col2']"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DataSetPostgreSqlTablaPruebaADF",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DataSetJsonEjemplo",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "EnviaErrorCod",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "CopiaDesdePostgres_a_CSV",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-121.westeurope.logic.azure.com:443/workflows/8b7aa1d884194896b1b6d528ee00bfc0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=u6FkvnKklvyXHTEbodKeBGDOue2m8CCcCpPguo-Nkro",
-							"method": "POST",
-							"headers": {
-								"Content-Type": "application/json"
-							},
-							"body": {
-								"DataFactoryName": "@{pipeline().DataFactory}",
-								"PipelineName": "@{pipeline().Pipeline}",
-								"ErrorMessage": "  -- Codigo de Error: @{activity('CopiaDesdePostgres_a_CSV').Error.ErrorCode} ",
-								"EmailTo": "@pipeline().parameters.EmailTo"
-							}
-						}
-					},
-					{
-						"name": "EnviaCodCopy",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "CopiaDesdePostgres_a_CSV",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-121.westeurope.logic.azure.com:443/workflows/8b7aa1d884194896b1b6d528ee00bfc0/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=u6FkvnKklvyXHTEbodKeBGDOue2m8CCcCpPguo-Nkro",
-							"method": "POST",
-							"headers": {
-								"Content-Type": "application/json"
-							},
-							"body": {
-								"DataFactoryName": "@{pipeline().DataFactory}",
-								"PipelineName": "@{pipeline().Pipeline}",
-								"ErrorMessage": "  -- Copia OK--",
-								"EmailTo": "@pipeline().parameters.EmailTo"
-							}
-						}
-					}
-				],
-				"parameters": {
-					"EmailTo": {
-						"type": "string",
-						"defaultValue": "alaloumet@encamina.com"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipelineExcel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy Excel",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "OdbcSource",
+								"type": "AzureSqlSource",
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
+								"type": "AzureSqlSink",
+								"preCopyScript": {
+									"value": "-- borramos porsi: ver descrip de la actividad\ndrop table if exists  @{variables('tabla_prueba')}",
+									"type": "Expression"
 								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "OdbcExcelMSF",
+								"referenceName": "AzureSqlTablaVuelosMeteoOtra",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DelimitedText1Gen",
+								"referenceName": "AzureSqTablaNoCreadaAntes",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
 					}
 				],
+				"variables": {
+					"tabla_prueba": {
+						"type": "String",
+						"defaultValue": "dbo.lalus"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipelineCogerValorPersistidoVariable')]",
+			"name": "[concat(parameters('factoryName'), '/EscenarioControlFlujo')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "Ejemplo con actividades de tipo lookup y bucles",
 				"activities": [
 					{
-						"name": "AsiganamosValorPersistidoEnVariable",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "CogemosValorPersistido",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "a",
-							"value": {
-								"value": "@activity('CogemosValorPersistido').output.firstRow.vari",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "CogemosValorPersistido",
+						"name": "LookupEnSQLAzure",
+						"description": "Extrae la lista con el nombre de las tablas del usuario configurado en el linked service",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -639,22 +176,24 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource"
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT TABLE_NAME\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE = 'BASE TABLE'"
 							},
 							"dataset": {
-								"referenceName": "SqlServerTablePersistVar",
+								"referenceName": "AzureSqlTestGen",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
-						"name": "EvaluamosValorVariable",
-						"description": "Si el Valor de la variable es 'A' , la cambiamos a 'X'",
-						"type": "IfCondition",
+						"name": "ForEachTabla",
+						"description": "Bucle que procesa actividades por cada tabla listada por la actividad de lookup",
+						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "AsiganamosValorPersistidoEnVariable",
+								"activity": "FilterQuitaTest",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -662,45 +201,183 @@
 						],
 						"userProperties": [],
 						"typeProperties": {
-							"expression": {
-								"value": "@equals(variables('a'),'A')",
+							"items": {
+								"value": "@activity('FilterQuitaTest').output.value",
 								"type": "Expression"
 							},
-							"ifFalseActivities": [
+							"isSequential": true,
+							"activities": [
 								{
-									"name": "Set variable3",
-									"type": "SetVariable",
+									"name": "LookupRegistro",
+									"description": "Saca la primera fila de cada tabla pasada por el foreach ",
+									"type": "Lookup",
 									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
-										"variableName": "a",
-										"value": {
-											"value": "X",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"ifTrueActivities": [
-								{
-									"name": "CambiamosValorX",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "a",
-										"value": {
-											"value": "'B'",
-											"type": "Expression"
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "select * from @{item().TABLE_NAME}",
+												"type": "Expression"
+											}
+										},
+										"dataset": {
+											"referenceName": "AzureSqlTestGen",
+											"type": "DatasetReference",
+											"parameters": {}
 										}
 									}
 								},
 								{
-									"name": "Copy data1",
+									"name": "CopyDataCSV",
+									"description": "Copia la salida de los resultados de leer cada tabla de SQL Azure al correspondiente fichero CSV en Azure Blob Storage",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "select top(100) * from @{item().TABLE_NAME} ",
+												"type": "Expression"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "AzureSqlTestGen",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "FicherosTablasSQLAzure",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "FilterQuitaTest",
+						"description": "Elimina las tablas que empiezan por \"test\"",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "LookupEnSQLAzure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupEnSQLAzure').output.value",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@not(contains(item().TABLE_NAME,'test'))",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PipelineBronze')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Está pensado para procesar los diferentes elementos de un mismo origen; por ejemplo, de una misma bdd SQL Server",
+				"activities": [
+					{
+						"name": "LookupOrigins",
+						"description": "Selecciona de la tabla de orígenes el elemento  que se va a procesar en función del valor del parámetro origen",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT ORIGINNAME\nFROM dbo.DATAORIGINS\nWHERE ORIGINID BETWEEN @{pipeline().parameters.origen1}\nAND\n@{pipeline().parameters.origen2}",
+									"type": "Expression"
+								}
+							},
+							"dataset": {
+								"referenceName": "AzureSqlTestGen",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachOrigin",
+						"description": "Procesa los movimientos de datos del elemento origen o de los elementos origen si hay que procesar más de uno en el mismo pipeline",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LookupOrigins",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupOrigins').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "CopyOriginToBronze",
+									"description": "Copia el elemento de origen dado a la zona Bronze (raw data)",
 									"type": "Copy",
 									"dependsOn": [
 										{
-											"activity": "CambiamosValorX",
+											"activity": "NotebookDQ",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -716,55 +393,74 @@
 									"userProperties": [],
 									"typeProperties": {
 										"source": {
-											"type": "SqlServerSource"
-										},
-										"sink": {
-											"type": "SqlServerSink",
-											"preCopyScript": {
-												"value": "update dbo.persistVar set vari = @{variables('a')}",
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "SELECT TOP (1000) * FROM @{item().ORIGINNAME}",
 												"type": "Expression"
 											}
 										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"mappings": [
-												{
-													"source": {
-														"name": "vari",
-														"type": "String"
-													},
-													"sink": {
-														"name": "vari",
-														"type": "String"
-													}
-												}
-											]
-										}
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"maxConcurrentConnections": 2
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".taka"
+											}
+										},
+										"enableStaging": false
 									},
 									"inputs": [
 										{
-											"referenceName": "SqlServerTablePersistVar",
+											"referenceName": "AzureSqlTestGen",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
 									],
 									"outputs": [
 										{
-											"referenceName": "SqlServerTablePersistVar",
+											"referenceName": "DelimitedPruebaCatalog",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
 									]
+								},
+								{
+									"name": "NotebookDQ",
+									"description": "Aplica la calidad de datos definida en la bdd",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": "/Users/alaloumet@encamina.com/NotebookDQ"
+									},
+									"linkedServiceName": {
+										"referenceName": "AzureDatabricks1",
+										"type": "LinkedServiceReference"
+									}
 								}
 							]
 						}
 					}
 				],
-				"variables": {
-					"a": {
-						"type": "String",
-						"defaultValue": "Z"
+				"parameters": {
+					"origen1": {
+						"type": "int",
+						"defaultValue": 1
+					},
+					"origen2": {
+						"type": "int",
+						"defaultValue": 2
 					}
 				},
 				"annotations": []
@@ -772,14 +468,189 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipelineException')]",
+			"name": "[concat(parameters('factoryName'), '/homere_Populate_Table_DW')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Una pipeline básica con movimiento de datos y control de errores",
 				"activities": [
 					{
-						"name": "CopiaDesdePostgres_a_CSV",
+						"name": "Homere_Copy_from_Landing",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "@{pipeline().parameters.fs}/@{concat('/',pipeline().parameters.domain,'/',pipeline().parameters.table)}/*"
+							},
+							{
+								"name": "Destination",
+								"value": "associative.@{pipeline().parameters.table}"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": {
+									"value": "truncate table @{concat('[',pipeline().parameters.domain,'].[',pipeline().parameters.table,']')}",
+									"type": "Expression"
+								},
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "homere_landing_csv_Read",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "HomereAzureSqlTableGen2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"table": {
+						"type": "string",
+						"defaultValue": "staff"
+					},
+					"domain": {
+						"type": "string",
+						"defaultValue": "homere"
+					},
+					"fs": {
+						"type": "string",
+						"defaultValue": "landing"
+					}
+				},
+				"folder": {
+					"name": "LoDeMSF"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/homere_Populate_Table_DW1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Homere_Copy_from_Landing",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "@{pipeline().parameters.fs}/@{concat('/',pipeline().parameters.domain,'/',pipeline().parameters.table)}/*"
+							},
+							{
+								"name": "Destination",
+								"value": "associative.@{pipeline().parameters.table}"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": {
+									"value": "truncate table @{concat('[',pipeline().parameters.domain,'].[',pipeline().parameters.table,']')}",
+									"type": "Expression"
+								},
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "homere_landing_csv_Read1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "HomereAzureSqlTableGen3",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"table": {
+						"type": "string",
+						"defaultValue": "staff"
+					},
+					"domain": {
+						"type": "string",
+						"defaultValue": "homere"
+					},
+					"fs": {
+						"type": "string",
+						"defaultValue": "landing"
+					}
+				},
+				"folder": {
+					"name": "LoDeMSF"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineDeBDD1aBDD2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copia una tabla entre dos bases de datos del mismo servicio de Azure SQL",
+				"activities": [
+					{
+						"name": "CopyDeBDD1ABDD2",
+						"description": "copia de una bdd a otra dentro del mismos servidor de SQL Azure",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -792,17 +663,11 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "PostgreSqlSource"
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
 							},
 							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings",
-									"quoteAllText": true
-								}
+								"type": "AzureSqlSink"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -810,20 +675,82 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "col1",
-											"type": "Int32"
+											"name": "OriginAirportCode",
+											"type": "String"
 										},
 										"sink": {
-											"path": "$['col1']"
+											"name": "OriginAirportCode",
+											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "col2",
+											"name": "Month",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "Month",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "DayofMonth",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DayofMonth",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "CRSDepHour",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "CRSDepHour",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "DayOfWeek",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DayOfWeek",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Carrier",
 											"type": "String"
 										},
 										"sink": {
-											"path": "$['col2']"
+											"name": "Carrier",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DestAirportCode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DestAirportCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DepDel15",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DepDel15",
+											"type": "Int32"
 										}
 									}
 								]
@@ -831,177 +758,391 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DataSetPostgreSqlTablaPruebaADF",
+								"referenceName": "AzureSqlTablaVuelosMeteoOtra",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DataSetJsonEjemplo",
+								"referenceName": "AzureSqlTableCopiaBDD1aBDD2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataSetPostgreSqlTablaPruebaADF')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Tabla PruebaADF en PostgreSql",
+				"linkedServiceName": {
+					"referenceName": "PostgreSqlOnPrem",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "PostgreSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "public",
+					"table": "PruebaADF"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataSetSqlServerTablaVuelosMeteo')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServerOnPrem",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "OriginAirportCode",
+						"type": "nvarchar"
 					},
 					{
-						"name": "If Condition1",
-						"type": "IfCondition",
-						"dependsOn": [
-							{
-								"activity": "CopiaDesdePostgres_a_CSV",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@equals(activity('CopiaDesdePostgres_a_CSV').Error.ErrorCode, '2200')",
-								"type": "Expression"
-							},
-							"ifTrueActivities": [
-								{
-									"name": "Wait1",
-									"type": "Wait",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"waitTimeInSeconds": 10
-									}
-								}
-							]
-						}
+						"name": "Month",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DayofMonth",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CRSDepHour",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DayOfWeek",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Carrier",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DestAirportCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DepDel15",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "WindSpeed",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SeaLevelPressure",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "HourlyPrecip",
+						"type": "int",
+						"precision": 10
 					}
 				],
-				"parameters": {
-					"EmailTo": {
-						"type": "string",
-						"defaultValue": "alaloumet@encamina.com"
-					}
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "VuelosMeteo"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Odbc1",
+					"type": "LinkedServiceReference"
 				},
-				"annotations": []
+				"folder": {
+					"name": "Homere"
+				},
+				"annotations": [],
+				"type": "OdbcTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": {
+						"value": "@pipeline().parameters.table",
+						"type": "Expression"
+					}
+				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipelinePruebaWindow1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "pruebaWindow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "pruebaWindow",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourceDataFlowELT": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
+				"linkedServiceName": {
+					"referenceName": "Odbc1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Homere"
+				},
+				"annotations": [],
+				"type": "OdbcTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": {
+						"value": "@pipeline().parameters.table",
+						"type": "Expression"
 					}
-				],
-				"annotations": []
+				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipelinePruebaWindow2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "pruebaWindow2",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "pruebaWindow2",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
+				"linkedServiceName": {
+					"referenceName": "Odbc1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Homere"
+				},
+				"annotations": [],
+				"type": "OdbcTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": {
+						"value": "@pipeline().parameters.table",
+						"type": "Expression"
 					}
-				],
-				"annotations": []
+				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipelinepRUEBAeVOLUCIONeSQUEMA')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/HomereOdbcGen3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
+				"linkedServiceName": {
+					"referenceName": "Odbc1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Homere"
+				},
+				"annotations": [],
+				"type": "OdbcTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": {
+						"value": "@pipeline().parameters.table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OdbcExcelMSF')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "OdbcExcelMSF",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "OdbcTable",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "Job Families"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTablePersistVar')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServerOnPrem",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
 					{
-						"name": "pruebaEvolucionEsquema",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "pruebaEvolucionEsquema",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
+						"name": "vari",
+						"type": "nvarchar"
 					}
 				],
-				"annotations": []
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "persistVar"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflowELT')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ParquetELT",
+								"type": "DatasetReference"
+							},
+							"name": "sourceDataFlowELT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTablaVuelosMeteoOtra",
+								"type": "DatasetReference"
+							},
+							"name": "sinkELT"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectELT"
+						},
+						{
+							"name": "SortELT"
+						}
+					],
+					"script": "source(output(\n\t\tOriginAirportCode as string,\n\t\tMonth as integer,\n\t\tDayofMonth as integer,\n\t\tCRSDepHour as integer,\n\t\tDayOfWeek as integer,\n\t\tCarrier as string,\n\t\tDestAirportCode as string,\n\t\tDepDel15 as integer,\n\t\tWindSpeed as integer,\n\t\tSeaLevelPressure as integer,\n\t\tHourlyPrecip as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> sourceDataFlowELT\nsourceDataFlowELT select(mapColumn(\n\t\tOriginAirportCode,\n\t\tMonth,\n\t\tDayofMonth,\n\t\tCRSDepHour,\n\t\tDayOfWeek,\n\t\tCarrier,\n\t\tDestAirportCode,\n\t\tDepDel15\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectELT\nSelectELT sort(asc(OriginAirportCode, true),\n\tasc(Month, true),\n\tasc(DayofMonth, true)) ~> SortELT\nSortELT sink(input(\n\t\tOriginAirportCode as string,\n\t\tMonth as integer,\n\t\tDayofMonth as integer,\n\t\tCRSDepHour as integer,\n\t\tDayOfWeek as integer,\n\t\tCarrier as string,\n\t\tDestAirportCode as string,\n\t\tDepDel15 as integer,\n\t\tWindSpeed as integer,\n\t\tSeaLevelPressure as integer,\n\t\tHourlyPrecip as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table') ~> sinkELT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pruebaEvolucionEsquema')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTablePruebaEvolucionEsquema",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "PruebaEvolucionEsquema",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"script": "source(output(\n\t\ta as integer,\n\t\tb as date,\n\t\tc as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 sink(input(\n\t\tColumn_1 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1)) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pruebaWindow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ParquetELT",
+								"type": "DatasetReference"
+							},
+							"name": "sourceDataFlowELT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SalidaPruebaWindows",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "NumFila",
+							"description": "Agrega datos de aeropuertos de origen ordenados por mes/día y crea una columna con un identificador de fila basado en ese criterio"
+						}
+					],
+					"script": "source(output(\n\t\tOriginAirportCode as string,\n\t\tMonth as integer,\n\t\tDayofMonth as integer,\n\t\tCRSDepHour as integer,\n\t\tDayOfWeek as integer,\n\t\tCarrier as string,\n\t\tDestAirportCode as string,\n\t\tDepDel15 as integer,\n\t\tWindSpeed as integer,\n\t\tSeaLevelPressure as integer,\n\t\tHourlyPrecip as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> sourceDataFlowELT\nsourceDataFlowELT window(over(Carrier),\n\tasc(Month, true),\n\tasc(DayofMonth, true),\n\tNumFila = rowNumber()) ~> NumFila\nNumFila sink(input(\n\t\t{1} as string,\n\t\t{2019-01-01} as string,\n\t\t{texteo de prueba} as string,\n\t\t{9.99} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tfilePattern:'SalidaPruebaWindow_1.csv') ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pruebaWindow2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "EjemploParaWindow",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SalidaPruebaWindows",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Window1"
+						}
+					],
+					"script": "source(output(\n\t\tNUMSERIE as integer '000',\n\t\tHORA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 window(asc(NUMSERIE, true),\n\tHORAS_ANTERIORES = lag(HORA)) ~> Window1\nWindow1 sink(input(\n\t\t{1} as string,\n\t\t{2019-01-01} as string,\n\t\t{texteo de prueba} as string,\n\t\t{9.99} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tfilePattern:'SalidaPruebaWindow_2.csv') ~> sink1"
+				}
 			},
 			"dependsOn": []
 		}
