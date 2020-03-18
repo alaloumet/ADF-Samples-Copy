@@ -5766,6 +5766,9 @@
 						"defaultValue": "adf_batch_tables"
 					}
 				},
+				"folder": {
+					"name": "MSF"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -5781,6 +5784,9 @@
 				"linkedServiceName": {
 					"referenceName": "msfint_bcn_hrbi_dev",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "MSF"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -5841,6 +5847,9 @@
 						"type": "string",
 						"defaultValue": "adf_batch_tables"
 					}
+				},
+				"folder": {
+					"name": "MSF"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",

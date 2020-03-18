@@ -21,6 +21,9 @@
 					"referenceName": "msfint_bcn_hrbi_dev",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "MSF"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -78,6 +81,9 @@
 						"type": "string",
 						"defaultValue": "adf_batch_tables"
 					}
+				},
+				"folder": {
+					"name": "MSF"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",

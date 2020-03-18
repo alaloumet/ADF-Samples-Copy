@@ -1,0 +1,166 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ADF-Lalo"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Copia_catalogo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copia_adf_batch_tables",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table lalo.@{pipeline().parameters.table}",
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "MSF_BatchTables",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "MSF_Batch_Tables_Dest",
+								"type": "DatasetReference",
+								"parameters": {
+									"table": "@pipeline().parameters.table"
+								}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"table": {
+						"type": "string",
+						"defaultValue": "adf_batch_tables"
+					}
+				},
+				"folder": {
+					"name": "MSF"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/MSF_BatchTables')]",
+				"[concat(variables('factoryId'), '/datasets/MSF_Batch_Tables_Dest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MSF_BatchTables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "msfint_bcn_hrbi_dev",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "MSF"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "table_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "domain",
+						"type": "nvarchar"
+					},
+					{
+						"name": "active",
+						"type": "bit"
+					},
+					{
+						"name": "refresh_mode",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "refresh_frecuency",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "comments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "last_refresh",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "msfcatalog",
+					"table": "adf_batch_tables"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MSF_Batch_Tables_Dest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseTest",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"table": {
+						"type": "string",
+						"defaultValue": "adf_batch_tables"
+					}
+				},
+				"folder": {
+					"name": "MSF"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "lalo",
+					"table": {
+						"value": "@dataset().table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
