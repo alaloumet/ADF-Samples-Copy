@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "copia_ficheros_otro_path",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copia_ficheros_a_otro_path",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
