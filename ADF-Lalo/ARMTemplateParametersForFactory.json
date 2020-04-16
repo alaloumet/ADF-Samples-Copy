@@ -8,9 +8,6 @@
 		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
 		"AzureDatabricks1_accessToken": {
 			"value": ""
 		},
@@ -46,9 +43,6 @@
 		},
 		"msfint_bcn_hrbi_dev_connectionString": {
 			"value": ""
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://alaloumetstorage.dfs.core.windows.net"
 		},
 		"Odbc1_properties_typeProperties_userName": {
 			"value": "lalo"

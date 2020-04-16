@@ -53,6 +53,31 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "testOutput",
+						"container": "laloblob"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/EjemploParaWindow')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -60,6 +85,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Ejemplos"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -97,6 +125,9 @@
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "Ejemplos"
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
@@ -115,32 +146,62 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen')]",
+			"name": "[concat(parameters('factoryName'), '/MSF_BatchTables')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabasetest2",
+					"referenceName": "msfint_bcn_hrbi_dev",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Homere"
+					"name": "MSF"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "homere",
-					"table": {
-						"value": "@pipeline().parameters.table",
-						"type": "Expression"
+				"schema": [
+					{
+						"name": "table_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "domain",
+						"type": "nvarchar"
+					},
+					{
+						"name": "active",
+						"type": "bit"
+					},
+					{
+						"name": "refresh_mode",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "refresh_frecuency",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "comments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "last_refresh",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
+				],
+				"typeProperties": {
+					"schema": "msfcatalog",
+					"table": "adf_batch_tables"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen1')]",
+			"name": "[concat(parameters('factoryName'), '/MSF_Batch_Tables_Dest')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -148,66 +209,22 @@
 					"referenceName": "AzureSqlDatabaseTest",
 					"type": "LinkedServiceReference"
 				},
-				"folder": {
-					"name": "Homere"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "homere",
+				"parameters": {
 					"table": {
-						"value": "@pipeline().parameters.table",
-						"type": "Expression"
+						"type": "string",
+						"defaultValue": "adf_batch_tables"
 					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseTest",
-					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "Homere"
+					"name": "MSF"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "homere",
+					"schema": "lalo",
 					"table": {
-						"value": "@pipeline().parameters.table",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/HomereAzureSqlTableGen3')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseTest",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Homere"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "homere",
-					"table": {
-						"value": "@pipeline().parameters.table",
+						"value": "@dataset().table",
 						"type": "Expression"
 					}
 				}
@@ -222,6 +239,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Ejemplos"
 				},
 				"annotations": [],
 				"type": "Parquet",
@@ -292,6 +312,9 @@
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "Ejemplos"
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
@@ -320,6 +343,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Ejemplos"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -352,162 +378,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/homere_landing_csv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Homere"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@concat(pipeline().parameters.table,'_landing_',utcnow('yyyy-MM-dd_HH:mm:ss'),'.csv')",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@concat('/',pipeline().parameters.domain,'/',pipeline().parameters.table)",
-							"type": "Expression"
-						},
-						"fileSystem": {
-							"value": "@pipeline().parameters.fs",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/homere_landing_csv1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Homere"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@concat(pipeline().parameters.table,'_landing_',utcnow('yyyy-MM-dd_HH:mm:ss'),'.csv')",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@concat('/',pipeline().parameters.domain,'/',pipeline().parameters.table)",
-							"type": "Expression"
-						},
-						"fileSystem": {
-							"value": "@pipeline().parameters.fs",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/homere_landing_csv_Read')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Homere"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "*",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@concat('/',pipeline().parameters.domain,'/',pipeline().parameters.table)",
-							"type": "Expression"
-						},
-						"fileSystem": {
-							"value": "@pipeline().parameters.fs",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/homere_landing_csv_Read1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Homere"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "*",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@concat('/',pipeline().parameters.domain,'/',pipeline().parameters.table)",
-							"type": "Expression"
-						},
-						"fileSystem": {
-							"value": "@pipeline().parameters.fs",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
 			},
 			"dependsOn": []
 		},
@@ -665,6 +535,526 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Copia_catalogo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copia_adf_batch_tables",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": {
+									"value": "truncate table lalo.@{pipeline().parameters.table}",
+									"type": "Expression"
+								},
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "MSF_BatchTables",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "MSF_Batch_Tables_Dest",
+								"type": "DatasetReference",
+								"parameters": {
+									"table": "@pipeline().parameters.table"
+								}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"table": {
+						"type": "string",
+						"defaultValue": "adf_batch_tables"
+					}
+				},
+				"folder": {
+					"name": "MSF"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/MSF_BatchTables')]",
+				"[concat(variables('factoryId'), '/datasets/MSF_Batch_Tables_Dest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopiadeBDD1aBDD2CreateTable')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Prueba de copiar tabla entre 2 bbdd del mismo servicio pero sin que exista la tabla destino la primera vez",
+				"activities": [
+					{
+						"name": "CopyDBDD1aBDD2ConCreate",
+						"description": "Copia los datos de una tabla de una bdd en una tbala de otra bdd del mismo servidor pero creándola primero.\nBorramos primero la tabla en la segunda bdd para forzar que no exista la tabla y verificar que funciona pero no es necesario porque solo crea la tabla si no existe",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": {
+									"value": "-- borramos porsi: ver descrip de la actividad\ndrop table if exists  @{variables('tabla_prueba')}",
+									"type": "Expression"
+								},
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTablaVuelosMeteoOtra",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqTablaNoCreadaAntes",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"variables": {
+					"tabla_prueba": {
+						"type": "String",
+						"defaultValue": "dbo.lalus"
+					}
+				},
+				"folder": {
+					"name": "Ejemplos"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EscenarioControlFlujo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ejemplo con actividades de tipo lookup y bucles",
+				"activities": [
+					{
+						"name": "LookupEnSQLAzure",
+						"description": "Extrae la lista con el nombre de las tablas del usuario configurado en el linked service",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT TABLE_NAME\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE = 'BASE TABLE'"
+							},
+							"dataset": {
+								"referenceName": "AzureSqlTestGen",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachTabla",
+						"description": "Bucle que procesa actividades por cada tabla listada por la actividad de lookup",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "FilterQuitaTest",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('FilterQuitaTest').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "LookupRegistro",
+									"description": "Saca la primera fila de cada tabla pasada por el foreach ",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "select * from @{item().TABLE_NAME}",
+												"type": "Expression"
+											}
+										},
+										"dataset": {
+											"referenceName": "AzureSqlTestGen",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									}
+								},
+								{
+									"name": "CopyDataCSV",
+									"description": "Copia la salida de los resultados de leer cada tabla de SQL Azure al correspondiente fichero CSV en Azure Blob Storage",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "select top(100) * from @{item().TABLE_NAME} ",
+												"type": "Expression"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "AzureSqlTestGen",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "FicherosTablasSQLAzure",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "FilterQuitaTest",
+						"description": "Elimina las tablas que empiezan por \"test\"",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "LookupEnSQLAzure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupEnSQLAzure').output.value",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@not(contains(item().TABLE_NAME,'test'))",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"folder": {
+					"name": "Ejemplos"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/FicherosTablasSQLAzure')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PipelineBronze')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Está pensado para procesar los diferentes elementos de un mismo origen; por ejemplo, de una misma bdd SQL Server",
+				"activities": [
+					{
+						"name": "LookupOrigins",
+						"description": "Selecciona de la tabla de orígenes el elemento  que se va a procesar en función del valor del parámetro origen",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT ORIGINNAME\nFROM dbo.DATAORIGINS\nWHERE ORIGINID BETWEEN @{pipeline().parameters.origen1}\nAND\n@{pipeline().parameters.origen2}",
+									"type": "Expression"
+								}
+							},
+							"dataset": {
+								"referenceName": "AzureSqlTestGen",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEachOrigin",
+						"description": "Procesa los movimientos de datos del elemento origen o de los elementos origen si hay que procesar más de uno en el mismo pipeline",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LookupOrigins",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LookupOrigins').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "CopyOriginToBronze",
+									"description": "Copia el elemento de origen dado a la zona Bronze (raw data)",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "NotebookDQ",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "SELECT TOP (1000) * FROM @{item().ORIGINNAME}",
+												"type": "Expression"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"maxConcurrentConnections": 2
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".taka"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "AzureSqlTestGen",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedPruebaCatalog",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								},
+								{
+									"name": "NotebookDQ",
+									"description": "Aplica la calidad de datos definida en la bdd",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": "/Users/alaloumet@encamina.com/NotebookDQ"
+									},
+									"linkedServiceName": {
+										"referenceName": "AzureDatabricks1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"parameters": {
+					"origen1": {
+						"type": "int",
+						"defaultValue": 1
+					},
+					"origen2": {
+						"type": "int",
+						"defaultValue": 2
+					}
+				},
+				"folder": {
+					"name": "Ejemplos"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copia_ficheros_otro_path')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copia_ficheros_a_otro_path",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DelimitedText1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DelimitedText2')]"
+			]
 		}
 	]
 }
